@@ -1,4 +1,4 @@
-package ch.berufsbildungscenter.cashmanager;
+package cashmanager.cashmanager;
 
 public class Budget extends Eintrag {
 	

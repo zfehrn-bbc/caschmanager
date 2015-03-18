@@ -13,7 +13,7 @@ public class BenutzerTester {
 		
 		Budget budget = new Budget();
 		budget.setBetrag(300.00);
-		budget.setName("Essen");
+		budget.setName("Essen: ");
 		b.getKonto().setEintrag(budget);
 		
 		System.out.println(b.toString() + budget.toString());

@@ -26,7 +26,7 @@ public class Budget extends Eintrag {
 	
 	public String toString() {
 		String p;
-		p = "Budget\n" + this.getName();
+		p = "Budget:\n" + this.getName();
 		p = p + "\nIntervall: " + this.getIntervall()+"\n";
 		p = p + "Budget: " + this.getBetrag();
 		return p;

@@ -51,6 +51,7 @@ public class Konto {
 	public void setEintrag(Eintrag eintrag) {
 		this.eintrag = eintrag;
 	}
+	
 
 	public String toString() {
 		String p;

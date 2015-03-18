@@ -6,9 +6,7 @@ public class Konto {
 	private double kontostand;
 	private char typ;
 
-	private Umbuchung umbuchung = new Umbuchung();
-	private EinAus einaus = new EinAus();
-	private Budget budget = new Budget();
+	private Eintrag eintrag;
 
 	public void kontostandAendern() {
 
@@ -45,29 +43,13 @@ public class Konto {
 	public void setTyp(char typ) {
 		this.typ = typ;
 	}
-
-	public Umbuchung getUmbuchung() {
-		return umbuchung;
+	
+	public Eintrag getEintrag() {
+		return eintrag;
 	}
 
-	public void setUmbuchung(Umbuchung umbuchung) {
-		this.umbuchung = umbuchung;
-	}
-
-	public EinAus getEinaus() {
-		return einaus;
-	}
-
-	public void setEinaus(EinAus einaus) {
-		this.einaus = einaus;
-	}
-
-	public Budget getBudget() {
-		return budget;
-	}
-
-	public void setBudget(Budget budget) {
-		this.budget = budget;
+	public void setEintrag(Eintrag eintrag) {
+		this.eintrag = eintrag;
 	}
 
 	public String toString() {

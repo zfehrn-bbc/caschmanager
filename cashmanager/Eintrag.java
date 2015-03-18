@@ -1,4 +1,4 @@
-package ch.berufsbildungscenter.cashmanager;
+package cashmanager.cashmanager;
 
 import java.util.Date;
 
@@ -43,6 +43,15 @@ public abstract class Eintrag {
 
 	public void setDatum(Date datum) {
 		this.datum = datum;
+	}
+	
+	public String toString() {
+		String p;
+		p = this.getKategorie()+"\n";
+		p += this.getDatum();
+		p += this.getBetrag();
+		p += this.getName();
+		return p;
 	}
 	
 }

@@ -1,4 +1,4 @@
-package ch.berufsbildungscenter.cashmanager;
+package cashmanager.cashmanager;
 
 public class Umbuchung extends Eintrag {
 	
@@ -32,5 +32,11 @@ public class Umbuchung extends Eintrag {
 	public void setZielkonto(String zielkonto) {
 		this.zielkonto = zielkonto;
 	}
-	
+	public String toString(){
+		String p;
+		p = "StartKonto : "+this.getStartkonto()+ "\n";
+		p += this.getZielkonto();
+		
+		return p;
 }
+} 

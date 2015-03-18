@@ -1,4 +1,4 @@
-package ch.berufsbildungscenter.cashmanager;
+package cashmanager.cashmanager;
 
 public class Benutzer {
 	
@@ -15,6 +15,15 @@ public class Benutzer {
 
 	public Konto getKonto() {
 		return konto;
+	}
+	
+	public String toString(){
+		String p;
+		p = "Name: "+this.getName()+ "\n";
+		p += this.getKonto()+ "\n";
+		
+		return p;
+		
 	}
 	
 }

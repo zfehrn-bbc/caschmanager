@@ -1,4 +1,4 @@
-package ch.berufsbildungscenter.cashmanager;
+package cashmanager.cashmanager;
 
 public class Budget extends Eintrag {
 	
@@ -24,4 +24,13 @@ public class Budget extends Eintrag {
 		this.intervall = intervall;
 	}
 	
+	public String toString() {
+		String p;
+		p = "Budget\n" + this.getName();
+		p = p + "\nIntervall: " + this.getIntervall()+"\n";
+		p = p + "Budget: " + this.getBetrag();
+		return p;
+	}
+
+
 }

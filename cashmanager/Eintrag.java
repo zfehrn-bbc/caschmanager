@@ -1,4 +1,4 @@
-package cashmanager.cashmanager;
+package ch.berufsbildungscenter.cashmanager;
 
 import java.util.Date;
 

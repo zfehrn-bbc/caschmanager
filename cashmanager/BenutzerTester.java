@@ -16,6 +16,7 @@ public class BenutzerTester {
 		budget.setName("Essen: ");
 		b.getKonto().setEintrag(budget);
 		
+		
 		System.out.println(b.toString() + budget.toString());
 
 	}

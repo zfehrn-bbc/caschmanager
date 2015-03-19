@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -24,6 +25,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.event.ChangeEvent;
 import javax.swing.plaf.metal.DefaultMetalTheme;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.OceanTheme;
@@ -39,7 +41,14 @@ public class CashmanagerView extends JFrame {
 	JTabbedPane tabbedpane4 = new JTabbedPane();
 	JTabbedPane tabbedpane5 = new JTabbedPane();
 	JTabbedPane tabbedpane6 = new JTabbedPane();
-	
+
+	public void stateChanged(ChangeEvent e) {
+		if (e.getSource() instanceof JTabbedPane) {
+			JTabbedPane pane = (JTabbedPane) e.getSource();
+			System.out.println("Selected paneNo : " + pane.getSelectedIndex());
+		}
+	}
+
 	// JPANELS
 	private JPanel mainPanel = new JPanel();
 	private JPanel titlePanel = new JPanel(new GridLayout(2, 1));
@@ -48,7 +57,8 @@ public class CashmanagerView extends JFrame {
 	private JPanel right = new JPanel();
 
 	// JSPLITPANE
-	JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tabbedpane3, right);
+	JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tabbedpane3,
+			right);
 
 	// JCALENDERBUTTONS
 	protected JCalendarButton fromCalendarButton;
@@ -64,7 +74,6 @@ public class CashmanagerView extends JFrame {
 	protected static JComboBox kategorieBox = new JComboBox<Object>(
 			KategorieArray);
 
-	
 	// JTEXTFIELDS
 	protected final JTextField ItemName = new JTextField();
 	protected final JTextField ItemBetrag = new JTextField();
@@ -76,6 +85,7 @@ public class CashmanagerView extends JFrame {
 	private JButton hi = new JButton("Hi");
 	private JButton konto2 = new JButton("Konto2");
 	private JButton abschicken = new JButton("Absenden");
+	private JButton neuesKonto = new JButton("Neues Konto?");
 
 	// JMENU
 	protected final JMenuBar mainMenuBar = new JMenuBar();
@@ -125,13 +135,9 @@ public class CashmanagerView extends JFrame {
 		// create tabbedpane
 		tabbedpane.add("Konto1", secondaryPanel);
 		tabbedpane.add("Konto2", tabbedpane2);
-		
-		//tabbedpane settings
+
+		// tabbedpane settings
 		tabbedpane3.setTabPlacement(JTabbedPane.LEFT);
-		tabbedpane4.setTabPlacement(JTabbedPane.LEFT);
-		tabbedpane5.setTabPlacement(JTabbedPane.LEFT);
-		tabbedpane6.setTabPlacement(JTabbedPane.LEFT);
-		
 
 		// split settings
 		split.setContinuousLayout(true);
@@ -146,14 +152,17 @@ public class CashmanagerView extends JFrame {
 
 		// tabeddpane3
 		tabbedpane3.add("Einnahme", left);
-		tabbedpane4.add("Ausgabe", left);
-		tabbedpane5.add("Umbuchung", left);
-		tabbedpane6.add("Budget", left);
-		
+		tabbedpane3.add("Ausgabe", tabbedpane4);
+		tabbedpane3.add("Umbuchung", tabbedpane5);
+		tabbedpane3.add("Budget", tabbedpane6);
+
 		// splitleft
 		left.setLayout(new GridLayout(0, 2));
-
-		// JTEXTFIELDS LayoutManager
+		
+		//splitright
+		right.setLayout(new GridLayout(0,1));
+		right.setMinimumSize(new Dimension(1000, 50));
+		// JTEXTFIELDS Einnahme
 		ItemName.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
 
 		left.add(new JLabel("Name"), BorderLayout.CENTER);
@@ -166,13 +175,15 @@ public class CashmanagerView extends JFrame {
 		left.add(emptyLabel());
 		left.add(emptyLabel());
 		left.add(abschicken);
-		
-		//Border
-		left.setBorder(BorderFactory.createEmptyBorder(20, 50, 450, 20));	
+		left.add(emptyLabel());
+		left.add(emptyLabel());
+		left.add(emptyLabel());
+		left.add(neuesKonto);
 
-		// splitleft config
-		abschicken.setMaximumSize(new Dimension(10, 50));
-		ItemName.setMaximumSize(new Dimension(100, 50));
+		// JTextfields Umbuchung
+
+		// Border
+		left.setBorder(BorderFactory.createEmptyBorder(20, 50, 450, 20));
 
 		// Add radio button menu items to button group
 		lafButtonGroup.add(metalDefaultRadioButtonMenuItem);

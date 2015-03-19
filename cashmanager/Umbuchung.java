@@ -7,14 +7,12 @@ public class Umbuchung extends Eintrag {
 	
 	@Override
 	public double betragAendern() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 	
 	@Override
 	public void eintragLoeschen() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	public String getStartkonto() {
@@ -34,9 +32,10 @@ public class Umbuchung extends Eintrag {
 	}
 	public String toString(){
 		String p;
-		p = "StartKonto : "+this.getStartkonto()+ "\n";
-		p += this.getZielkonto();
-		
+		p = "Betrag: " + this.getBetrag();
+		p += "Name: " + this.getName();
+		p += "StartKonto : "+this.getStartkonto()+ "\n";
+		p += "ZielKonto: " + this.getZielkonto();
 		return p;
 }
 } 

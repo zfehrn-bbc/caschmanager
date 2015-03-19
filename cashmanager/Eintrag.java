@@ -48,9 +48,9 @@ public abstract class Eintrag {
 	public String toString() {
 		String p;
 		p = this.getKategorie()+"\n";
-		p += this.getDatum();
-		p += this.getBetrag();
-		p += this.getName();
+		p += this.getDatum()+"\n";
+		p += this.getBetrag()+"\n";
+		p += this.getName()+"\n";
 		return p;
 	}
 	

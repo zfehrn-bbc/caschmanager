@@ -1,15 +1,17 @@
 package cashmanager.cashmanager.view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
+import java.text.DateFormat;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -18,13 +20,16 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.Border;
 import javax.swing.plaf.metal.DefaultMetalTheme;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.OceanTheme;
+
+import org.jbundle.thin.base.screen.jcalendarbutton.JCalendarButton;
 
 public class CashmanagerView extends JFrame {
 	
@@ -33,8 +38,15 @@ public class CashmanagerView extends JFrame {
 	
 	// JPANELS
 	private JPanel												mainPanel												= new JPanel();
+	private JPanel												titlePanel											= new JPanel(
+																																						new GridLayout(
+																																								2,
+																																								1));
 	private JPanel												secondaryPanel									= new JPanel();
-	private JPanel												left														= new JPanel();
+	private JPanel												left														= new JPanel(
+																																						new GridLayout(
+																																								2,
+																																								4));
 	private JPanel												right														= new JPanel();
 	
 	// JSPLITPANE
@@ -43,11 +55,30 @@ public class CashmanagerView extends JFrame {
 																																						left,
 																																						right);
 	
+	// JCALENDERBUTTONS
+	// protected JCalendarButton fromCalendarButton;
+	// protected JCalendarButton untilCalendarButton;
+	
+	// JCOMBOBOX
+	private static String[]								KategorieArray									= {
+			"Kategorie1", "Kat2", "Frankreich", "Italien", "Liechtenstein",
+			"Österreich"																											};
+	
+	// KATEGORIE Combo Box
+	protected static JComboBox						customerCountryBox							= new JComboBox<Object>(
+																																						KategorieArray);
+	
+	// JTEXTFIELDS
+	protected final JTextField						ItemName												= new JTextField();
+	protected final JTextField						ItemBetrag											= new JTextField();
+	
+	// JCALENDERBUTTON
+	protected JCalendarButton							fromCalendarButton;
+	protected JCalendarButton							untilCalendarButton;
+	
 	// JLABELS
 	private JLabel												title														= new JLabel(
 																																						"Cashmanager");
-	private JLabel												welcome													= new JLabel(
-																																						"Willkommen User");
 	
 	// JBUTTONS
 	private JButton												hi															= new JButton(
@@ -89,26 +120,38 @@ public class CashmanagerView extends JFrame {
 		
 		// MainPanel adden
 		this.add(mainPanel);
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));		
-		mainPanel.add(title, BorderLayout.CENTER);
-		mainPanel.add(welcome, BorderLayout.CENTER);
-		mainPanel.add(tabbedpane);
+		mainPanel.setLayout(new BorderLayout());
+		mainPanel.add(titlePanel, BorderLayout.NORTH);
+		mainPanel.add(tabbedpane, BorderLayout.CENTER);
+		
+		// TitlePanel
+		titlePanel.setLayout(new GridLayout(2,1));
+		titlePanel.add(title);
+		titlePanel.add(new JLabel("Willkommen " + this.getName()));
+		
 		
 		// title
 		title.setFont(title.getFont().deriveFont(30.0f));
 		
 		// create tabbedpane
 		tabbedpane.add("Konto1", secondaryPanel);
-		tabbedpane.add("Konto2", secondaryPanel);
 		
 		// split settings
 		split.setContinuousLayout(true);
 		split.setOneTouchExpandable(true);
 		
 		// secondaryPanel
+		secondaryPanel.setSize(1000, 1000);
+		secondaryPanel.setLayout(new FlowLayout(3));
 		secondaryPanel.add(split);
 		
-		// split
+		// Textfelder
+		ItemName.setSize(200, 30);
+		
+		// splitleft
+		left.setLayout(new GridLayout(2, 4));
+		left.add(ItemName);
+		left.add(ItemBetrag);
 		
 		// Add radio button menu items to button group
 		lafButtonGroup.add(metalDefaultRadioButtonMenuItem);

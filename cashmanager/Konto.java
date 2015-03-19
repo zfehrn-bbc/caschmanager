@@ -9,15 +9,15 @@ public class Konto {
 	private Eintrag eintrag;
 
 	public void kontostandAendern() {
-
+		this.getKontostand();
 	}
 
 	public void neuerEintrag() {
-
+		
 	}
 
 	public void kontoBearbeiten() {
-
+		
 	}
 
 	public String getName() {
@@ -58,7 +58,7 @@ public class Konto {
 		p = "Kotnoname: "+this.getName()+"\n";
 		p += "Kontostand: " + this.getKontostand()+"\n";
 		p += "Typ: " + this.getTyp()+"\n";
-
+		
 		return p;
 	}
 }

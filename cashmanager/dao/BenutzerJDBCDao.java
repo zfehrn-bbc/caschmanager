@@ -20,7 +20,7 @@ public class BenutzerJDBCDao implements BenutzerDao {
 	// Beutzerid finden
 	public Benutzer findBenutzerById(int id) throws SQLException {
 		Benutzer b = null;
-		String sql = "SELECT * FROM Benutzer WHERE ID_Adresse = ?";
+		String sql = "SELECT * FROM Benutzer WHERE ID_Benutzer = ?";
 		con = this.openConnection();
 		ps = (PreparedStatement) con.prepareStatement(sql);
 		ps.setInt(1, id);

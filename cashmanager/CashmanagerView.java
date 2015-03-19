@@ -1,14 +1,14 @@
-package cashmanager.cashmanager.view;
+package cashmanager.cashmanager;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
-import java.text.DateFormat;
 
-import javax.swing.BoxLayout;
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -21,7 +21,6 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -30,128 +29,133 @@ import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.OceanTheme;
 
 import org.jbundle.thin.base.screen.jcalendarbutton.JCalendarButton;
-
 public class CashmanagerView extends JFrame {
-	
+
 	// JTABBEDPANE
-	JTabbedPane														tabbedpane											= new JTabbedPane();
-	
+	JTabbedPane tabbedpane = new JTabbedPane();
+	JTabbedPane tabbedpane2 = new JTabbedPane();
+
 	// JPANELS
-	private JPanel												mainPanel												= new JPanel();
-	private JPanel												titlePanel											= new JPanel(
-																																						new GridLayout(
-																																								2,
-																																								1));
-	private JPanel												secondaryPanel									= new JPanel();
-	private JPanel												left														= new JPanel(
-																																						new GridLayout(
-																																								2,
-																																								4));
-	private JPanel												right														= new JPanel();
-	
+	private JPanel mainPanel = new JPanel();
+	private JPanel titlePanel = new JPanel(new GridLayout(2, 1));
+	private JPanel secondaryPanel = new JPanel();
+	private JPanel left = new JPanel(new GridLayout(2, 4));
+	private JPanel right = new JPanel();
+
 	// JSPLITPANE
-	JSplitPane														split														= new JSplitPane(
-																																						JSplitPane.HORIZONTAL_SPLIT,
-																																						left,
-																																						right);
-	
+	JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, left, right);
+
 	// JCALENDERBUTTONS
-	// protected JCalendarButton fromCalendarButton;
-	// protected JCalendarButton untilCalendarButton;
+	protected JCalendarButton fromCalendarButton;
+	protected JCalendarButton untilCalendarButton;
+	protected final JLabel fromDateLabel = new JLabel();
+	protected final JLabel untilDateLabel = new JLabel();
 	
+
 	// JCOMBOBOX
-	private static String[]								KategorieArray									= {
-			"Kategorie1", "Kat2", "Frankreich", "Italien", "Liechtenstein",
-			"Österreich"																											};
-	
+	private static String[] KategorieArray = { "Essen", "Freizeit", "Ausgang",
+			"Haushalt", };
+
 	// KATEGORIE Combo Box
-	protected static JComboBox						customerCountryBox							= new JComboBox<Object>(
-																																						KategorieArray);
-	
+	protected static JComboBox kategorieBox = new JComboBox<Object>(
+			KategorieArray);
+
 	// JTEXTFIELDS
-	protected final JTextField						ItemName												= new JTextField();
-	protected final JTextField						ItemBetrag											= new JTextField();
-	
-	// JCALENDERBUTTON
-	protected JCalendarButton							fromCalendarButton;
-	protected JCalendarButton							untilCalendarButton;
+	protected final JTextField ItemName = new JTextField();
+	protected final JTextField ItemBetrag = new JTextField();
 	
 	// JLABELS
-	private JLabel												title														= new JLabel(
-																																						"Cashmanager");
-	
+	private JLabel title = new JLabel("Cashmanager");
+
 	// JBUTTONS
-	private JButton												hi															= new JButton(
-																																						"Hi");
-	
+	private JButton hi = new JButton("Hi");
+	private JButton konto2 = new JButton("Konto2");
+	private JButton abschicken = new JButton("Absenden");
+
 	// JMENU
-	protected final JMenuBar							mainMenuBar											= new JMenuBar();
-	
-	protected final JMenu									fileMenu												= new JMenu(
-																																						"Datei");
-	protected final JMenu									lafMenu													= new JMenu(
-																																						"Look and Feel");
-	protected final JMenu									toolbarMenu											= new JMenu(
-																																						"Toolbar");
-	
+	protected final JMenuBar mainMenuBar = new JMenuBar();
+
+	protected final JMenu fileMenu = new JMenu("Datei");
+	protected final JMenu lafMenu = new JMenu("Look and Feel");
+	protected final JMenu toolbarMenu = new JMenu("Toolbar");
+
 	// Look and Feel Variabeln
-	protected final ButtonGroup						lafButtonGroup									= new ButtonGroup();
-	
-	protected final JRadioButtonMenuItem	metalDefaultRadioButtonMenuItem	= new JRadioButtonMenuItem(
-																																						"Metal Default");
-	protected final JRadioButtonMenuItem	metalOceanRadioButtonMenuItem		= new JRadioButtonMenuItem(
-																																						"Metal Ocean");
-	protected final JRadioButtonMenuItem	motifRadioButtonMenuItem				= new JRadioButtonMenuItem(
-																																						"Motif");
-	protected final JRadioButtonMenuItem	windowsRadioButtonMenuItem			= new JRadioButtonMenuItem(
-																																						"Windows");
-	protected final JRadioButtonMenuItem	nimbusRadioButtonMenuItem				= new JRadioButtonMenuItem(
-																																						"Nimbus");
-	
+	protected final ButtonGroup lafButtonGroup = new ButtonGroup();
+
+	protected final JRadioButtonMenuItem metalDefaultRadioButtonMenuItem = new JRadioButtonMenuItem(
+			"Metal Default");
+	protected final JRadioButtonMenuItem metalOceanRadioButtonMenuItem = new JRadioButtonMenuItem(
+			"Metal Ocean");
+	protected final JRadioButtonMenuItem motifRadioButtonMenuItem = new JRadioButtonMenuItem(
+			"Motif");
+	protected final JRadioButtonMenuItem windowsRadioButtonMenuItem = new JRadioButtonMenuItem(
+			"Windows");
+	protected final JRadioButtonMenuItem nimbusRadioButtonMenuItem = new JRadioButtonMenuItem(
+			"Nimbus");
+
 	public static void main(String[] args) {
 		CashmanagerView gui = new CashmanagerView();
 		gui.setSize(1200, 800);
 		gui.setVisible(true);
 	}
-	
+
 	public CashmanagerView() {
 		setTitle("Cashmanger");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
+
 		// MainPanel adden
 		this.add(mainPanel);
 		mainPanel.setLayout(new BorderLayout());
 		mainPanel.add(titlePanel, BorderLayout.NORTH);
-		mainPanel.add(tabbedpane, BorderLayout.CENTER);
-		
+		mainPanel.add(tabbedpane);
+		mainPanel.add(tabbedpane2);
+
 		// TitlePanel
-		titlePanel.setLayout(new GridLayout(2,1));
+		titlePanel.setLayout(new GridLayout(2, 1));
 		titlePanel.add(title);
 		titlePanel.add(new JLabel("Willkommen " + this.getName()));
-		
-		
+
 		// title
 		title.setFont(title.getFont().deriveFont(30.0f));
-		
+
 		// create tabbedpane
 		tabbedpane.add("Konto1", secondaryPanel);
-		
+		tabbedpane2.add("Konto2", secondaryPanel);
+
 		// split settings
 		split.setContinuousLayout(true);
 		split.setOneTouchExpandable(true);
+		split.setPreferredSize(new Dimension(1000,500));
 		
 		// secondaryPanel
-		secondaryPanel.setSize(1000, 1000);
-		secondaryPanel.setLayout(new FlowLayout(3));
-		secondaryPanel.add(split);
+		secondaryPanel.setLayout(new BorderLayout());
+		secondaryPanel.add(split, BorderLayout.CENTER);
+		secondaryPanel.add(new JLabel("Kontostand: " +this.getName()), BorderLayout.NORTH);
 		
-		// Textfelder
-		ItemName.setSize(200, 30);
 		
+		
+
 		// splitleft
-		left.setLayout(new GridLayout(2, 4));
+		left.setLayout(new GridLayout(0,2));
+		
+		
+	
+		
+		left.add(new JLabel("Name"), BorderLayout.CENTER);
 		left.add(ItemName);
+		left.add(new JLabel("Kategorie"));
+		left.add(kategorieBox);
+		left.add(new JLabel("Betrag"));
 		left.add(ItemBetrag);
+		left.add(new JLabel("Datum"));
+		left.add(emptyLabel());
+		left.add(emptyLabel());
+		left.add(abschicken);
+		left.setBorder(BorderFactory.createEmptyBorder(20,50,450,20));
+		
+		//splitleft config
+		abschicken.setMaximumSize(new Dimension(10,50));
+		ItemName.setMaximumSize(new Dimension(100,50));
 		
 		// Add radio button menu items to button group
 		lafButtonGroup.add(metalDefaultRadioButtonMenuItem);
@@ -159,51 +163,59 @@ public class CashmanagerView extends JFrame {
 		lafButtonGroup.add(windowsRadioButtonMenuItem);
 		lafButtonGroup.add(motifRadioButtonMenuItem);
 		lafButtonGroup.add(nimbusRadioButtonMenuItem);
-		
+
 		// Add radio button menu items to menu 'laf'
 		lafMenu.add(metalDefaultRadioButtonMenuItem);
 		lafMenu.add(metalOceanRadioButtonMenuItem);
 		lafMenu.add(windowsRadioButtonMenuItem);
 		lafMenu.add(motifRadioButtonMenuItem);
 		lafMenu.add(nimbusRadioButtonMenuItem);
-		
+		//Date
+		final JPanel fromDatePanel = new JPanel(new FlowLayout(
+				FlowLayout.LEFT));
+		final JPanel untilDatePanel = new JPanel(new FlowLayout(
+				FlowLayout.LEFT));
 		mainMenuBar.add(fileMenu);
 		mainMenuBar.add(lafMenu);
 		mainMenuBar.add(toolbarMenu);
-		
+
 		// Menu Bar
 		setJMenuBar(mainMenuBar);
-		
+
 		// Configure laf radio button menu items
 		metalDefaultRadioButtonMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				try {
 					MetalLookAndFeel.setCurrentTheme(new DefaultMetalTheme());
-					UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+					UIManager
+							.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 					SwingUtilities.updateComponentTreeUI(CashmanagerView.this);
 					pack();
 				} catch (ClassNotFoundException | InstantiationException
-						| IllegalAccessException | UnsupportedLookAndFeelException e) {
+						| IllegalAccessException
+						| UnsupportedLookAndFeelException e) {
 				}
 			}
 		});
-		
+
 		metalOceanRadioButtonMenuItem.setSelected(true);
 		metalOceanRadioButtonMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				try {
 					MetalLookAndFeel.setCurrentTheme(new OceanTheme());
-					UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+					UIManager
+							.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 					SwingUtilities.updateComponentTreeUI(CashmanagerView.this);
 					pack();
 				} catch (ClassNotFoundException | InstantiationException
-						| IllegalAccessException | UnsupportedLookAndFeelException e) {
+						| IllegalAccessException
+						| UnsupportedLookAndFeelException e) {
 				}
 			}
 		});
-		
+
 		motifRadioButtonMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -213,11 +225,12 @@ public class CashmanagerView extends JFrame {
 					SwingUtilities.updateComponentTreeUI(CashmanagerView.this);
 					pack();
 				} catch (ClassNotFoundException | InstantiationException
-						| IllegalAccessException | UnsupportedLookAndFeelException e) {
+						| IllegalAccessException
+						| UnsupportedLookAndFeelException e) {
 				}
 			}
 		});
-		
+
 		windowsRadioButtonMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -227,11 +240,12 @@ public class CashmanagerView extends JFrame {
 					SwingUtilities.updateComponentTreeUI(CashmanagerView.this);
 					pack();
 				} catch (ClassNotFoundException | InstantiationException
-						| IllegalAccessException | UnsupportedLookAndFeelException e) {
+						| IllegalAccessException
+						| UnsupportedLookAndFeelException e) {
 				}
 			}
 		});
-		
+
 		nimbusRadioButtonMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -241,9 +255,17 @@ public class CashmanagerView extends JFrame {
 					SwingUtilities.updateComponentTreeUI(CashmanagerView.this);
 					pack();
 				} catch (ClassNotFoundException | InstantiationException
-						| IllegalAccessException | UnsupportedLookAndFeelException e) {
+						| IllegalAccessException
+						| UnsupportedLookAndFeelException e) {
 				}
 			}
 		});
 	}
+
+	private Component emptyLabel() {
+		return new JLabel();
+
+	}
+
+	
 }

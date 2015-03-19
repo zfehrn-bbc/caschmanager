@@ -29,12 +29,17 @@ import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.OceanTheme;
 
 import org.jbundle.thin.base.screen.jcalendarbutton.JCalendarButton;
+
 public class CashmanagerView extends JFrame {
 
 	// JTABBEDPANE
 	JTabbedPane tabbedpane = new JTabbedPane();
 	JTabbedPane tabbedpane2 = new JTabbedPane();
-
+	JTabbedPane tabbedpane3 = new JTabbedPane();
+	JTabbedPane tabbedpane4 = new JTabbedPane();
+	JTabbedPane tabbedpane5 = new JTabbedPane();
+	JTabbedPane tabbedpane6 = new JTabbedPane();
+	
 	// JPANELS
 	private JPanel mainPanel = new JPanel();
 	private JPanel titlePanel = new JPanel(new GridLayout(2, 1));
@@ -43,14 +48,13 @@ public class CashmanagerView extends JFrame {
 	private JPanel right = new JPanel();
 
 	// JSPLITPANE
-	JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, left, right);
+	JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tabbedpane3, right);
 
 	// JCALENDERBUTTONS
 	protected JCalendarButton fromCalendarButton;
 	protected JCalendarButton untilCalendarButton;
 	protected final JLabel fromDateLabel = new JLabel();
 	protected final JLabel untilDateLabel = new JLabel();
-	
 
 	// JCOMBOBOX
 	private static String[] KategorieArray = { "Essen", "Freizeit", "Ausgang",
@@ -60,10 +64,11 @@ public class CashmanagerView extends JFrame {
 	protected static JComboBox kategorieBox = new JComboBox<Object>(
 			KategorieArray);
 
+	
 	// JTEXTFIELDS
 	protected final JTextField ItemName = new JTextField();
 	protected final JTextField ItemBetrag = new JTextField();
-	
+
 	// JLABELS
 	private JLabel title = new JLabel("Cashmanager");
 
@@ -108,7 +113,6 @@ public class CashmanagerView extends JFrame {
 		mainPanel.setLayout(new BorderLayout());
 		mainPanel.add(titlePanel, BorderLayout.NORTH);
 		mainPanel.add(tabbedpane);
-		mainPanel.add(tabbedpane2);
 
 		// TitlePanel
 		titlePanel.setLayout(new GridLayout(2, 1));
@@ -120,27 +124,38 @@ public class CashmanagerView extends JFrame {
 
 		// create tabbedpane
 		tabbedpane.add("Konto1", secondaryPanel);
-		tabbedpane2.add("Konto2", secondaryPanel);
+		tabbedpane.add("Konto2", tabbedpane2);
+		
+		//tabbedpane settings
+		tabbedpane3.setTabPlacement(JTabbedPane.LEFT);
+		tabbedpane4.setTabPlacement(JTabbedPane.LEFT);
+		tabbedpane5.setTabPlacement(JTabbedPane.LEFT);
+		tabbedpane6.setTabPlacement(JTabbedPane.LEFT);
+		
 
 		// split settings
 		split.setContinuousLayout(true);
 		split.setOneTouchExpandable(true);
-		split.setPreferredSize(new Dimension(1000,500));
-		
+		split.setPreferredSize(new Dimension(1000, 500));
+
 		// secondaryPanel
 		secondaryPanel.setLayout(new BorderLayout());
 		secondaryPanel.add(split, BorderLayout.CENTER);
-		secondaryPanel.add(new JLabel("Kontostand: " +this.getName()), BorderLayout.NORTH);
-		
-		
-		
+		secondaryPanel.add(new JLabel("Kontostand: " + this.getName()),
+				BorderLayout.NORTH);
 
+		// tabeddpane3
+		tabbedpane3.add("Einnahme", left);
+		tabbedpane4.add("Ausgabe", left);
+		tabbedpane5.add("Umbuchung", left);
+		tabbedpane6.add("Budget", left);
+		
 		// splitleft
-		left.setLayout(new GridLayout(0,2));
-		
-		
-	
-		
+		left.setLayout(new GridLayout(0, 2));
+
+		// JTEXTFIELDS LayoutManager
+		ItemName.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
+
 		left.add(new JLabel("Name"), BorderLayout.CENTER);
 		left.add(ItemName);
 		left.add(new JLabel("Kategorie"));
@@ -151,12 +166,14 @@ public class CashmanagerView extends JFrame {
 		left.add(emptyLabel());
 		left.add(emptyLabel());
 		left.add(abschicken);
-		left.setBorder(BorderFactory.createEmptyBorder(20,50,450,20));
 		
-		//splitleft config
-		abschicken.setMaximumSize(new Dimension(10,50));
-		ItemName.setMaximumSize(new Dimension(100,50));
-		
+		//Border
+		left.setBorder(BorderFactory.createEmptyBorder(20, 50, 450, 20));	
+
+		// splitleft config
+		abschicken.setMaximumSize(new Dimension(10, 50));
+		ItemName.setMaximumSize(new Dimension(100, 50));
+
 		// Add radio button menu items to button group
 		lafButtonGroup.add(metalDefaultRadioButtonMenuItem);
 		lafButtonGroup.add(metalOceanRadioButtonMenuItem);
@@ -170,11 +187,10 @@ public class CashmanagerView extends JFrame {
 		lafMenu.add(windowsRadioButtonMenuItem);
 		lafMenu.add(motifRadioButtonMenuItem);
 		lafMenu.add(nimbusRadioButtonMenuItem);
-		//Date
-		final JPanel fromDatePanel = new JPanel(new FlowLayout(
-				FlowLayout.LEFT));
-		final JPanel untilDatePanel = new JPanel(new FlowLayout(
-				FlowLayout.LEFT));
+		// Date
+		final JPanel fromDatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		final JPanel untilDatePanel = new JPanel(
+				new FlowLayout(FlowLayout.LEFT));
 		mainMenuBar.add(fileMenu);
 		mainMenuBar.add(lafMenu);
 		mainMenuBar.add(toolbarMenu);
@@ -267,5 +283,4 @@ public class CashmanagerView extends JFrame {
 
 	}
 
-	
 }

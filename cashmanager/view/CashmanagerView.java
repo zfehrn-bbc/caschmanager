@@ -125,10 +125,9 @@ public class CashmanagerView extends JFrame {
 		mainPanel.add(tabbedpane, BorderLayout.CENTER);
 		
 		// TitlePanel
-		titlePanel.setLayout(new GridLayout(2,1));
+		titlePanel.setLayout(new GridLayout(2, 1));
 		titlePanel.add(title);
 		titlePanel.add(new JLabel("Willkommen " + this.getName()));
-		
 		
 		// title
 		title.setFont(title.getFont().deriveFont(30.0f));

@@ -2,8 +2,9 @@ package cashmanager.cashmanager;
 
 public class Benutzer {
 	
+	private int id = 0;
 	private Konto konto = new Konto();	
-	private String name;
+	private String name = "";
 
 	public String getName() {
 		return name;
@@ -24,6 +25,20 @@ public class Benutzer {
 		
 		return p;
 		
+	}
+
+	public void setKonto(Konto konto) {
+		this.konto = konto;
+	}
+
+	public void setId(int id) {
+		// TODO Auto-generated method stub
+		this.id = id;
+	}
+	
+	public int getId() {
+		// TODO Auto-generated method stub
+		return id;
 	}
 	
 }

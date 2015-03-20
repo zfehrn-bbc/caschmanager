@@ -11,8 +11,11 @@ public class BenutzerTester {
 	
 	public static void main(String[] args) {
 		try {
-			Benutzer b = benutzer.findBenutzerById(1);
-			System.out.println(b.toString());
+			Benutzer ben = new Benutzer();
+			ben.setId(0);
+			ben.setName("Iwan");
+			benutzer.insertBenutzer(ben);
+			System.out.println("Eingetragen");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

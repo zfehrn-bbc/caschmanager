@@ -4,6 +4,7 @@ import java.util.Date;
 
 public abstract class Eintrag {
 	
+	private int id = 0;
 	private double betrag;
 	private String kategorie;
 	private String name;
@@ -52,6 +53,16 @@ public abstract class Eintrag {
 		p += this.getBetrag()+"\n";
 		p += this.getName()+"\n";
 		return p;
+	}
+	
+	public void setId(int id) {
+		// TODO Auto-generated method stub
+		this.id = id;
+	}
+	
+	public int getId() {
+		// TODO Auto-generated method stub
+		return id;
 	}
 	
 }

@@ -2,7 +2,7 @@ package cashmanager.cashmanager;
 
 public class EinAus extends Eintrag {
 	
-	private char typ;
+	private String typ;
 	
 	@Override
 	public double betragAendern() {
@@ -16,12 +16,12 @@ public class EinAus extends Eintrag {
 		
 	}
 
-	public char getTyp() {
+	public String getTyp() {
 		return typ;
 	}
 
-	public void setTyp(char typ) {
-		this.typ = typ;
+	public void setTyp(String string) {
+		this.typ = string;
 	}
 	
 }

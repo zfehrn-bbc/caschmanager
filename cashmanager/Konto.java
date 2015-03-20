@@ -2,9 +2,10 @@ package cashmanager.cashmanager;
 
 public class Konto {
 
+	private int id = 0;
 	private String name;
 	private double kontostand;
-	private char typ;
+	private String typ;
 
 	private Eintrag eintrag;
 
@@ -36,12 +37,12 @@ public class Konto {
 		this.kontostand = kontostand;
 	}
 
-	public char getTyp() {
+	public String getTyp() {
 		return typ;
 	}
 
-	public void setTyp(char typ) {
-		this.typ = typ;
+	public void setTyp(String string) {
+		this.typ = string;
 	}
 	
 	public Eintrag getEintrag() {
@@ -60,5 +61,15 @@ public class Konto {
 		p += "Typ: " + this.getTyp()+"\n";
 		
 		return p;
+	}
+
+	public void setId(int id) {
+		// TODO Auto-generated method stub
+		this.id = id;
+	}
+	
+	public int getId() {
+		// TODO Auto-generated method stub
+		return id;
 	}
 }

@@ -1,8 +1,11 @@
 package cashmanager.cashmanager;
 
+import java.util.Date;
+
 public class Budget extends Eintrag {
 	
-	private int intervall = 0;
+	private Date vonBudget = new Date();
+	private Date bisBudget = new Date();
 	
 	@Override
 	public double betragAendern() {
@@ -16,20 +19,30 @@ public class Budget extends Eintrag {
 		
 	}
 
-	public int getIntervall() {
-		return intervall;
-	}
-
-	public void setIntervall(int intervall) {
-		this.intervall = intervall;
-	}
+	
 	
 	public String toString() {
 		String p;
 		p = "Budget:\n" + this.getName();
-		p = p + "\nIntervall: " + this.getIntervall()+"\n";
+		p = p + "\nIntervall: " + this.getVonBudget().toString() + " bis " + this.getBisBudget().toString() +"\n";
 		p = p + "Budget: " + this.getBetrag();
 		return p;
+	}
+
+	public Date getVonBudget() {
+		return vonBudget;
+	}
+
+	public void setVonBudget(Date vonBudget) {
+		this.vonBudget = vonBudget;
+	}
+
+	public Date getBisBudget() {
+		return bisBudget;
+	}
+
+	public void setBisBudget(Date bisBudget) {
+		this.bisBudget = bisBudget;
 	}
 
 

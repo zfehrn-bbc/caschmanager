@@ -26,6 +26,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.plaf.metal.DefaultMetalTheme;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.OceanTheme;
@@ -38,9 +39,6 @@ public class CashmanagerView extends JFrame {
 	JTabbedPane tabbedpane = new JTabbedPane();
 	JTabbedPane tabbedpane2 = new JTabbedPane();
 	JTabbedPane tabbedpane3 = new JTabbedPane();
-	JTabbedPane tabbedpane4 = new JTabbedPane();
-	JTabbedPane tabbedpane5 = new JTabbedPane();
-	JTabbedPane tabbedpane6 = new JTabbedPane();
 
 	public void stateChanged(ChangeEvent e) {
 		if (e.getSource() instanceof JTabbedPane) {
@@ -149,22 +147,44 @@ public class CashmanagerView extends JFrame {
 		secondaryPanel.add(split, BorderLayout.CENTER);
 		secondaryPanel.add(new JLabel("Kontostand: " + this.getName()),
 				BorderLayout.NORTH);
-
+		
+		
+		
+		
+		
 		// tabeddpane3
 		tabbedpane3.add("Einnahme", left);
-		tabbedpane3.add("Ausgabe", tabbedpane4);
-		tabbedpane3.add("Umbuchung", tabbedpane5);
-		tabbedpane3.add("Budget", tabbedpane6);
-
+		tabbedpane3.addTab("Ausgabe",new JLabel("content"));
+		tabbedpane3.addTab("Umbuchung",new JLabel("content2"));
+		tabbedpane3.addTab("Budgter",new JLabel("content3"));
+		
+		//JLabel content 
+		JLabel content = new JLabel();
+		
 		// splitleft
 		left.setLayout(new GridLayout(0, 2));
 		
 		//splitright
 		right.setLayout(new GridLayout(0,1));
-		right.setMinimumSize(new Dimension(1000, 50));
+		right.setMinimumSize(new Dimension(700, 50));
 		// JTEXTFIELDS Einnahme
 		ItemName.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
+		
+		
+		//TabListener
+		ChangeListener changeListener = new ChangeListener() {
+		      public void stateChanged(ChangeEvent changeEvent) {
+		        JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent.getSource();
+		        int index = sourceTabbedPane.getSelectedIndex();
+		        System.out.println("Tab changed to: " + sourceTabbedPane.getTitleAt(index));
+		      }
+		    };
+		    tabbedpane3.addChangeListener(changeListener);
 
+		//switch the tabs
+		
+		
+		
 		left.add(new JLabel("Name"), BorderLayout.CENTER);
 		left.add(ItemName);
 		left.add(new JLabel("Kategorie"));

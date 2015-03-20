@@ -12,7 +12,7 @@ import cashmanager.cashmanager.Konto;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 
-public class KontoJDBCDao {
+public class KontoJDBCDao implements KontoDao {
 	
 	private Connection				con	= null;
 	private PreparedStatement	ps	= null;
@@ -106,22 +106,22 @@ public class KontoJDBCDao {
 	// Alle Benutzer Abrufen
 	public Collection<Integer> getAllId(Benutzer b) throws SQLException {
 		List idList = null;
-    String sql = "SELECT ID_Konto FROM CASHMANAGER.Konto WHERE Benutzer_ID = ?";
-    con = openConnection();
-    ps = (PreparedStatement) con.prepareStatement(sql);
-    ps.setInt(1, b.getId());
-    rs = ps.executeQuery();
-
-    if (rs.next()) {
-      idList = new ArrayList<String>();
-
-      do {
-        idList.add(rs.getInt("ID_Konto"));
-      } while (rs.next());
-    }
-    closeConnection();
-    return idList;
-  }
+		String sql = "SELECT ID_Konto FROM CASHMANAGER.Konto WHERE Benutzer_ID = ?";
+		con = openConnection();
+		ps = (PreparedStatement) con.prepareStatement(sql);
+		ps.setInt(1, b.getId());
+		rs = ps.executeQuery();
+		
+		if (rs.next()) {
+			idList = new ArrayList<String>();
+			
+			do {
+				idList.add(rs.getInt("ID_Konto"));
+			} while (rs.next());
+		}
+		closeConnection();
+		return idList;
+	}
 	
 	// Öffnen der FactoryConnection
 	private Connection openConnection() throws SQLException {

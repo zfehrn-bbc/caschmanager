@@ -13,7 +13,7 @@ import cashmanager.cashmanager.Konto;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 
-public class UmbuchungJDBCDao {
+public class UmbuchungJDBCDao implements UmbuchungDao {
 	
 	private Connection				con	= null;
 	private PreparedStatement	ps	= null;

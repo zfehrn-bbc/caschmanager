@@ -24,7 +24,6 @@ public class Benutzer {
 		p += this.getKonto()+ "\n";
 		
 		return p;
-		
 	}
 
 	public void setKonto(Konto konto) {

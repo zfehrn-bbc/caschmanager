@@ -19,10 +19,12 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.SingleSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -38,9 +40,6 @@ public class CashmanagerView extends JFrame {
 
 	// JTABBEDPANE
 	JTabbedPane tabbedpane = new JTabbedPane();
-	JTabbedPane tabbedpane2 = new JTabbedPane();
-
-	
 
 	public void stateChanged(ChangeEvent e) {
 		if (e.getSource() instanceof JTabbedPane) {
@@ -49,16 +48,17 @@ public class CashmanagerView extends JFrame {
 		}
 	}
 
+	// leftsplit
+	private static JPanel left = new JPanel(new GridLayout(2, 4));
+
 	// JPANELS
 	private JPanel mainPanel = new JPanel();
 	private JPanel titlePanel = new JPanel(new GridLayout(2, 1));
 	private JPanel secondaryPanel = new JPanel();
-	private JPanel secondaryPanel2 = new JPanel();
 	private JPanel right = new JPanel();
 
 	// JSPLITPANE
-	JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tabbedpane2,
-			right);
+	JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, left, right);
 
 	// JCALENDERBUTTONS
 	protected JCalendarButton fromCalendarButton;
@@ -70,7 +70,22 @@ public class CashmanagerView extends JFrame {
 	private JLabel title = new JLabel("Cashmanager");
 
 	// JBUTTONS
+	private JButton abschicken = new JButton("Absenden");
+	private JButton neuesKonto = new JButton("Neues Konto?");
 	
+	
+
+	// JCOMBOBOX
+	private String[] KategorieArray = { "Essen", "Freizeit", "Ausgang",
+			"Haushalt", };
+
+	// KATEGORIE Combo Box
+	protected JComboBox kategorieBox = new JComboBox<Object>(KategorieArray);
+
+	// JTEXTFIELDS
+	protected final JTextField ItemName = new JTextField();
+	protected final JTextField ItemBetrag = new JTextField();
+	protected final JTextField ItemNameAusgabe = new JTextField();
 
 	// JMENU
 	protected final JMenuBar mainMenuBar = new JMenuBar();
@@ -95,7 +110,8 @@ public class CashmanagerView extends JFrame {
 
 	public static void main(String[] args) {
 		CashmanagerView gui = new CashmanagerView();
-		gui.setSize(1200, 800);
+		gui.setSize(1000, 700);
+		gui.setMinimumSize(new Dimension(1000, 700));
 		gui.setVisible(true);
 	}
 
@@ -109,6 +125,11 @@ public class CashmanagerView extends JFrame {
 		mainPanel.add(titlePanel, BorderLayout.NORTH);
 		mainPanel.add(tabbedpane);
 
+		
+		
+		// Tabbedpane
+		tabbedpane.add("Konto", secondaryPanel);
+
 		// TitlePanel
 		titlePanel.setLayout(new GridLayout(2, 1));
 		titlePanel.add(title);
@@ -116,12 +137,6 @@ public class CashmanagerView extends JFrame {
 
 		// title
 		title.setFont(title.getFont().deriveFont(30.0f));
-
-		// create tabbedpane
-		tabbedpane.add("Konto1", secondaryPanel2);
-		tabbedpane.addTab("Konto2",secondaryPanel);
-
-		tabbedpane2.setTabPlacement(JTabbedPane.LEFT);
 
 		// split settings
 		split.setContinuousLayout(true);
@@ -133,41 +148,53 @@ public class CashmanagerView extends JFrame {
 		secondaryPanel.add(split, BorderLayout.CENTER);
 		secondaryPanel.add(new JLabel("Kontostand: " + this.getName()),
 				BorderLayout.NORTH);
+
+		// Radio Buttons: Typecontrols
+		// create tab position controls
+		JPanel typecontrols = new JPanel(new FlowLayout(1));
+		JRadioButton einnahme = (JRadioButton) typecontrols
+				.add(new JRadioButton("Einnahme"));
+		JRadioButton ausgabe = (JRadioButton) typecontrols
+				.add(new JRadioButton("Ausgabe"));
+		JRadioButton budget = (JRadioButton) typecontrols.add(new JRadioButton(
+				"Budget"));
+		JRadioButton umbuchung = (JRadioButton) typecontrols
+				.add(new JRadioButton("Umbuchung"));
+		add(typecontrols, BorderLayout.NORTH);
+
+		ButtonGroup group = new ButtonGroup();
+		group.add(einnahme);
+		group.add(ausgabe);
+		group.add(budget);
+		group.add(umbuchung);
 		
-		// tabeddpane3
-		 String name = "Einnahme"; 
-         JPanel left = LeftManager.getContent(name);  
-         tabbedpane2.add(name, left);
-         
-         name = "Ausgabe"; 
-         left = LeftManager.getContent(name); 
-         tabbedpane2.add(name, left); 
-         
-         name = "Umbuchung"; 
-         left = LeftManager.getContent(name); 
-         tabbedpane2.add(name, left); 
-         
-         name = "Budget"; 
-         left = LeftManager.getContent(name); 
-         tabbedpane2.add(name, left); 
-		
+		// Form Panel für Textfelder und Buttons
+				JPanel form = new JPanel(new GridLayout(7 ,2));
+				form.setBorder(BorderFactory.createTitledBorder("Ausgabe, Einahme"));
+				form.add(new JLabel("Name"), BorderLayout.CENTER);
+				form.add(ItemName);
+				form.add(new JLabel("Kategorie"));
+				form.add(kategorieBox);
+				form.add(new JLabel("Betrag"));
+				form.add(ItemBetrag);
+				form.add(new JLabel("Datum"));
+				form.add(emptyLabel());
+				form.add(emptyLabel());
+				form.add(abschicken);
+				form.add(emptyLabel());
+				form.add(emptyLabel());
+				form.add(emptyLabel());
+				form.add(neuesKonto);
+
+		// splitleft
+		left.setBorder(BorderFactory.createEmptyBorder(0, 0, 300, 0));
+		left.setLayout(new BorderLayout());
+		left.add(typecontrols, BorderLayout.NORTH);
+		left.add(form, BorderLayout.CENTER);	
+
 		// splitright
 		right.setLayout(new GridLayout(0, 1));
 		right.setMinimumSize(new Dimension(700, 50));
-		
-
-		// TabListener
-		ChangeListener changeListener = new ChangeListener() {
-			public void stateChanged(ChangeEvent changeEvent) {
-				JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent
-						.getSource();
-				int index = sourceTabbedPane.getSelectedIndex();
-				System.out.println("Tab changed to: "
-						+ sourceTabbedPane.getTitleAt(index));
-			}
-			};
-		tabbedpane2.addChangeListener(changeListener);		
-
 
 		// Add radio button menu items to button group
 		lafButtonGroup.add(metalDefaultRadioButtonMenuItem);
@@ -192,6 +219,14 @@ public class CashmanagerView extends JFrame {
 
 		// Menu Bar
 		setJMenuBar(mainMenuBar);
+		
+		// Action Listener für Radio Buttons bei neuem Eintrag
+		budget.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				JPanel form2 = new JPanel(new GridLayout(7 ,2));
+				
+			}
+		});
 
 		// Configure laf radio button menu items
 		metalDefaultRadioButtonMenuItem.addActionListener(new ActionListener() {
@@ -271,5 +306,10 @@ public class CashmanagerView extends JFrame {
 				}
 			}
 		});
+	}
+
+	public static Component emptyLabel() {
+		return new JLabel();
+
 	}
 }

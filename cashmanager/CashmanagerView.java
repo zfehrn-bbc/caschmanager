@@ -1,12 +1,10 @@
 package cashmanager.cashmanager;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -24,12 +22,10 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
-import javax.swing.SingleSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.plaf.metal.DefaultMetalTheme;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.OceanTheme;
@@ -37,6 +33,21 @@ import javax.swing.plaf.metal.OceanTheme;
 import org.jbundle.thin.base.screen.jcalendarbutton.JCalendarButton;
 
 public class CashmanagerView extends JFrame {
+
+	
+	// Radio Buttons: Typecontrols
+
+			JPanel typecontrols = new JPanel(new FlowLayout(1));
+			JRadioButton einnahme = (JRadioButton) typecontrols
+					.add(new JRadioButton("Einnahme"));
+			JRadioButton ausgabe = (JRadioButton) typecontrols
+					.add(new JRadioButton("Ausgabe"));
+			JRadioButton budget = (JRadioButton) typecontrols.add(new JRadioButton(
+					"Budget"));
+			JRadioButton umbuchung = (JRadioButton) typecontrols
+					.add(new JRadioButton("Umbuchung"));
+			add(typecontrols, BorderLayout.NORTH);
+	
 
 	// JTABBEDPANE
 	JTabbedPane tabbedpane = new JTabbedPane();
@@ -47,7 +58,9 @@ public class CashmanagerView extends JFrame {
 			System.out.println("Selected paneNo : " + pane.getSelectedIndex());
 		}
 	}
-
+	 
+		
+		
 	// leftsplit
 	private static JPanel left = new JPanel(new GridLayout(2, 4));
 
@@ -72,8 +85,6 @@ public class CashmanagerView extends JFrame {
 	// JBUTTONS
 	private JButton abschicken = new JButton("Absenden");
 	private JButton neuesKonto = new JButton("Neues Konto?");
-	
-	
 
 	// JCOMBOBOX
 	private String[] KategorieArray = { "Essen", "Freizeit", "Ausgang",
@@ -125,7 +136,8 @@ public class CashmanagerView extends JFrame {
 		mainPanel.add(titlePanel, BorderLayout.NORTH);
 		mainPanel.add(tabbedpane);
 
-		
+	
+
 		
 		// Tabbedpane
 		tabbedpane.add("Konto", secondaryPanel);
@@ -149,19 +161,10 @@ public class CashmanagerView extends JFrame {
 		secondaryPanel.add(new JLabel("Kontostand: " + this.getName()),
 				BorderLayout.NORTH);
 
-		// Radio Buttons: Typecontrols
-		// create tab position controls
-		JPanel typecontrols = new JPanel(new FlowLayout(1));
-		JRadioButton einnahme = (JRadioButton) typecontrols
-				.add(new JRadioButton("Einnahme"));
-		JRadioButton ausgabe = (JRadioButton) typecontrols
-				.add(new JRadioButton("Ausgabe"));
-		JRadioButton budget = (JRadioButton) typecontrols.add(new JRadioButton(
-				"Budget"));
-		JRadioButton umbuchung = (JRadioButton) typecontrols
-				.add(new JRadioButton("Umbuchung"));
-		add(typecontrols, BorderLayout.NORTH);
+		
 
+		
+		
 		ButtonGroup group = new ButtonGroup();
 		group.add(einnahme);
 		group.add(ausgabe);
@@ -219,15 +222,8 @@ public class CashmanagerView extends JFrame {
 
 		// Menu Bar
 		setJMenuBar(mainMenuBar);
-		
-		// Action Listener für Radio Buttons bei neuem Eintrag
-		budget.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				JPanel form2 = new JPanel(new GridLayout(7 ,2));
-				
-			}
-		});
-
+			      
+			
 		// Configure laf radio button menu items
 		metalDefaultRadioButtonMenuItem.addActionListener(new ActionListener() {
 			@Override

@@ -1,6 +1,7 @@
 package cashmanager.cashmanager;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -38,7 +39,8 @@ public class CashmanagerView extends JFrame {
 	// JTABBEDPANE
 	JTabbedPane tabbedpane = new JTabbedPane();
 	JTabbedPane tabbedpane2 = new JTabbedPane();
-	JTabbedPane tabbedpane3 = new JTabbedPane();
+
+	
 
 	public void stateChanged(ChangeEvent e) {
 		if (e.getSource() instanceof JTabbedPane) {
@@ -51,11 +53,11 @@ public class CashmanagerView extends JFrame {
 	private JPanel mainPanel = new JPanel();
 	private JPanel titlePanel = new JPanel(new GridLayout(2, 1));
 	private JPanel secondaryPanel = new JPanel();
-	private JPanel left = new JPanel(new GridLayout(2, 4));
+	private JPanel secondaryPanel2 = new JPanel();
 	private JPanel right = new JPanel();
 
 	// JSPLITPANE
-	JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tabbedpane3,
+	JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tabbedpane2,
 			right);
 
 	// JCALENDERBUTTONS
@@ -64,26 +66,11 @@ public class CashmanagerView extends JFrame {
 	protected final JLabel fromDateLabel = new JLabel();
 	protected final JLabel untilDateLabel = new JLabel();
 
-	// JCOMBOBOX
-	private static String[] KategorieArray = { "Essen", "Freizeit", "Ausgang",
-			"Haushalt", };
-
-	// KATEGORIE Combo Box
-	protected static JComboBox kategorieBox = new JComboBox<Object>(
-			KategorieArray);
-
-	// JTEXTFIELDS
-	protected final JTextField ItemName = new JTextField();
-	protected final JTextField ItemBetrag = new JTextField();
-
 	// JLABELS
 	private JLabel title = new JLabel("Cashmanager");
 
 	// JBUTTONS
-	private JButton hi = new JButton("Hi");
-	private JButton konto2 = new JButton("Konto2");
-	private JButton abschicken = new JButton("Absenden");
-	private JButton neuesKonto = new JButton("Neues Konto?");
+	
 
 	// JMENU
 	protected final JMenuBar mainMenuBar = new JMenuBar();
@@ -131,11 +118,10 @@ public class CashmanagerView extends JFrame {
 		title.setFont(title.getFont().deriveFont(30.0f));
 
 		// create tabbedpane
-		tabbedpane.add("Konto1", secondaryPanel);
-		tabbedpane.add("Konto2", tabbedpane2);
+		tabbedpane.add("Konto1", secondaryPanel2);
+		tabbedpane.addTab("Konto2",secondaryPanel);
 
-		// tabbedpane settings
-		tabbedpane3.setTabPlacement(JTabbedPane.LEFT);
+		tabbedpane2.setTabPlacement(JTabbedPane.LEFT);
 
 		// split settings
 		split.setContinuousLayout(true);
@@ -148,62 +134,40 @@ public class CashmanagerView extends JFrame {
 		secondaryPanel.add(new JLabel("Kontostand: " + this.getName()),
 				BorderLayout.NORTH);
 		
-		
-		
-		
-		
 		// tabeddpane3
-		tabbedpane3.add("Einnahme", left);
-		tabbedpane3.addTab("Ausgabe",new JLabel("content"));
-		tabbedpane3.addTab("Umbuchung",new JLabel("content2"));
-		tabbedpane3.addTab("Budgter",new JLabel("content3"));
+		 String name = "Einnahme"; 
+         JPanel left = LeftManager.getContent(name);  
+         tabbedpane2.add(name, left);
+         
+         name = "Ausgabe"; 
+         left = LeftManager.getContent(name); 
+         tabbedpane2.add(name, left); 
+         
+         name = "Umbuchung"; 
+         left = LeftManager.getContent(name); 
+         tabbedpane2.add(name, left); 
+         
+         name = "Budget"; 
+         left = LeftManager.getContent(name); 
+         tabbedpane2.add(name, left); 
 		
-		//JLabel content 
-		JLabel content = new JLabel();
-		
-		// splitleft
-		left.setLayout(new GridLayout(0, 2));
-		
-		//splitright
-		right.setLayout(new GridLayout(0,1));
+		// splitright
+		right.setLayout(new GridLayout(0, 1));
 		right.setMinimumSize(new Dimension(700, 50));
-		// JTEXTFIELDS Einnahme
-		ItemName.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
 		
-		
-		//TabListener
+
+		// TabListener
 		ChangeListener changeListener = new ChangeListener() {
-		      public void stateChanged(ChangeEvent changeEvent) {
-		        JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent.getSource();
-		        int index = sourceTabbedPane.getSelectedIndex();
-		        System.out.println("Tab changed to: " + sourceTabbedPane.getTitleAt(index));
-		      }
-		    };
-		    tabbedpane3.addChangeListener(changeListener);
+			public void stateChanged(ChangeEvent changeEvent) {
+				JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent
+						.getSource();
+				int index = sourceTabbedPane.getSelectedIndex();
+				System.out.println("Tab changed to: "
+						+ sourceTabbedPane.getTitleAt(index));
+			}
+			};
+		tabbedpane2.addChangeListener(changeListener);		
 
-		//switch the tabs
-		
-		
-		
-		left.add(new JLabel("Name"), BorderLayout.CENTER);
-		left.add(ItemName);
-		left.add(new JLabel("Kategorie"));
-		left.add(kategorieBox);
-		left.add(new JLabel("Betrag"));
-		left.add(ItemBetrag);
-		left.add(new JLabel("Datum"));
-		left.add(emptyLabel());
-		left.add(emptyLabel());
-		left.add(abschicken);
-		left.add(emptyLabel());
-		left.add(emptyLabel());
-		left.add(emptyLabel());
-		left.add(neuesKonto);
-
-		// JTextfields Umbuchung
-
-		// Border
-		left.setBorder(BorderFactory.createEmptyBorder(20, 50, 450, 20));
 
 		// Add radio button menu items to button group
 		lafButtonGroup.add(metalDefaultRadioButtonMenuItem);
@@ -308,10 +272,4 @@ public class CashmanagerView extends JFrame {
 			}
 		});
 	}
-
-	private Component emptyLabel() {
-		return new JLabel();
-
-	}
-
 }

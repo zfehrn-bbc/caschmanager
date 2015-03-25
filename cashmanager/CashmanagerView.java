@@ -5,12 +5,12 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -150,6 +150,7 @@ public class CashmanagerView extends JFrame {
 
 		// split settings
 		split.setContinuousLayout(true);
+		split.setOneTouchExpandable(true);
 		split.setPreferredSize(new Dimension(1000, 500));
 
 		// secondaryPanel
@@ -174,6 +175,7 @@ public class CashmanagerView extends JFrame {
 		// zweites formular
 		JPanel form2 = new JPanel(new GridLayout(0, 2));
 		form2.setBorder(BorderFactory.createTitledBorder("Ausgabe,Einnahme"));
+		form2.setSize(new Dimension(100,50));
 		form2.add(new JLabel("Name"), BorderLayout.CENTER);
 		form2.add(ItemName2);
 		form2.add(new JLabel("Kategorie"));
@@ -181,11 +183,12 @@ public class CashmanagerView extends JFrame {
 		form2.add(new JLabel("Betrag"));
 		form2.add(ItemBetrag2);
 		form2.add(new JLabel("Datum"));
-//		form2.add(emptyLabel());
-//		form2.add(emptyLabel());
-//		form2.add(emptyLabel());
-//		form2.add(emptyLabel());
-//		form2.add(emptyLabel());
+		form2.add(emptyLabel());
+		form2.add(emptyLabel());
+		form2.add(emptyLabel());
+		form2.add(emptyLabel());
+		form2.add(emptyLabel());
+		form2.setSize(new Dimension(200,500));
 		
 		
 		//drittes formular
@@ -208,7 +211,6 @@ public class CashmanagerView extends JFrame {
 		form4.add(new JLabel("Zielkonto:"));
 		form4.add(kategorieBox4);
 		form4.add(Abstand2,BorderLayout.SOUTH);
-		
 		// Action event
 		ActionListener sliceActionListener = new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
@@ -233,8 +235,7 @@ public class CashmanagerView extends JFrame {
 		
 		// Panel für linke seite für formular
 		//all.setLayout();
-		//all.setLayout(new GridLayout(3,1));
-		all.setLayout(new BoxLayout(all, BoxLayout.Y_AXIS));
+		all.setLayout(new GridLayout(4,1));
 		all.add(form2);
 		all.add(form3);
 		all.add(form4);
@@ -251,7 +252,7 @@ public class CashmanagerView extends JFrame {
 
 		// splitright
 		right.setLayout(new GridLayout(0, 1));
-		right.setMinimumSize(new Dimension(500, 50));
+		right.setMinimumSize(new Dimension(700, 50));
 
 		// Add radio button menu items to button group
 		lafButtonGroup.add(metalDefaultRadioButtonMenuItem);
@@ -315,7 +316,7 @@ public class CashmanagerView extends JFrame {
 			public void actionPerformed(ActionEvent event) {
 				try {
 					UIManager
-							.setLookAndFeel("com.sun.java.swilb ng.plaf.motif.MotifLookAndFeel");
+							.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
 					SwingUtilities.updateComponentTreeUI(CashmanagerView.this);
 					pack();
 				} catch (ClassNotFoundException | InstantiationException

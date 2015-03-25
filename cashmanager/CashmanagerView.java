@@ -7,23 +7,30 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.net.URL;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -68,8 +75,8 @@ public class CashmanagerView extends JFrame {
 
 	// JLABELS
 	private JLabel title = new JLabel("Cashmanager");
-	
-	//Layout
+
+	// Layout
 
 	// JBUTTONS
 	private JButton abschicken = new JButton("Absenden");
@@ -157,7 +164,45 @@ public class CashmanagerView extends JFrame {
 		secondaryPanel.add(split, BorderLayout.CENTER);
 		secondaryPanel.add(new JLabel("Kontostand: " + this.getName()),
 				BorderLayout.NORTH);
-	
+
+		// Toolbar
+		final JCheckBoxMenuItem toolbarCheckBoxMenuItem = new JCheckBoxMenuItem(
+				"Toolbar anzeigen");
+		toolbarMenu.add(toolbarCheckBoxMenuItem);
+
+		// Datei
+		final Icon exitImageIcon = loadIcon("exit_large.png");
+		final Icon printImageIcon = loadIcon("printer.png");
+		final Icon neuesKontoImageIcon = loadIcon("add.png");
+
+		// JMenuItem
+		final JMenuItem exitMenuItem = new JMenuItem("Verlassen", exitImageIcon);
+		final JMenuItem printMenuItem = new JMenuItem("Drucken",printImageIcon);
+		final JMenuItem newkontoItem = new JMenuItem("Neues Konto?", neuesKontoImageIcon);
+		
+		// Add to fileMenu
+		fileMenu.add(exitMenuItem);
+		fileMenu.add(printMenuItem);
+		fileMenu.add(newkontoItem);
+		
+		//Menu item 'Neues Konto?'
+		newkontoItem.setMnemonic(KeyEvent.VK_K);
+		exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_K,
+				ActionEvent.CTRL_MASK));
+		exitMenuItem.addActionListener(new NewKontoListener(this));
+
+		// Menu item 'exit'
+		exitMenuItem.setMnemonic(KeyEvent.VK_C);
+		exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,
+				ActionEvent.CTRL_MASK));
+		exitMenuItem.addActionListener(new ExitListener(this));
+
+		// Menu item 'print'
+		printMenuItem.setMnemonic(KeyEvent.VK_P);
+		printMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
+				ActionEvent.CTRL_MASK));
+		printMenuItem.addActionListener(new PrintListener(this));
+
 		// Radio Buttons: Typecontrols
 
 		JPanel typecontrols = new JPanel(new FlowLayout(1));
@@ -181,25 +226,19 @@ public class CashmanagerView extends JFrame {
 		form2.add(new JLabel("Betrag"));
 		form2.add(ItemBetrag2);
 		form2.add(new JLabel("Datum"));
-//		form2.add(emptyLabel());
-//		form2.add(emptyLabel());
-//		form2.add(emptyLabel());
-//		form2.add(emptyLabel());
-//		form2.add(emptyLabel());
-		
-		
-		//drittes formular
+		form2.add(new JCalendarButton());
+
+		// drittes formular
 		JPanel Abstand = new JPanel();
-		JPanel form3 = new JPanel(new GridLayout(0,1));
+		JPanel form3 = new JPanel(new GridLayout(0, 2));
 		form3.setBorder(BorderFactory.createTitledBorder("Wenn Budget"));
 		form3.add(new JLabel("Von:"));
+		form3.add(new JCalendarButton());
 		form3.add(new JLabel("Bis:"));
-		form3.add(Abstand,BorderLayout.SOUTH);
-		
-		
-		
-		
-		//viertes formular
+		form3.add(new JCalendarButton());
+		form3.add(Abstand, BorderLayout.SOUTH);
+
+		// viertes formular
 		JPanel form4 = new JPanel(new GridLayout(0, 2));
 		JPanel Abstand2 = new JPanel();
 		form4.setBorder(BorderFactory.createTitledBorder("Wenn Umbuchung"));
@@ -207,15 +246,15 @@ public class CashmanagerView extends JFrame {
 		form4.add(kategorieBox3);
 		form4.add(new JLabel("Zielkonto:"));
 		form4.add(kategorieBox4);
-		form4.add(Abstand2,BorderLayout.SOUTH);
-		
+		form4.add(Abstand2, BorderLayout.SOUTH);
+
 		// Action event
 		ActionListener sliceActionListener = new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
 				AbstractButton aButton = (AbstractButton) actionEvent
 						.getSource();
 				System.out.println("Selected: " + aButton.getText());
-				}
+			}
 		};
 
 		// JRadioButtons Actionlistener
@@ -223,31 +262,28 @@ public class CashmanagerView extends JFrame {
 		ausgabe.addActionListener(sliceActionListener);
 		budget.addActionListener(sliceActionListener);
 		umbuchung.addActionListener(sliceActionListener);
-		
+
 		ButtonGroup group = new ButtonGroup();
 		group.add(einnahme);
 		group.add(ausgabe);
 		group.add(budget);
 		group.add(umbuchung);
-		
-		
+
 		// Panel für linke seite für formular
-		//all.setLayout();
-		//all.setLayout(new GridLayout(3,1));
 		all.setLayout(new BoxLayout(all, BoxLayout.Y_AXIS));
 		all.add(form2);
 		all.add(form3);
 		all.add(form4);
 
-		//JPanel Bottom
+		// JPanel Bottom
 		bottom.add(abschicken);
 		bottom.add(neuesKonto);
-		
+
 		// splitleft
 		left.setLayout(new BorderLayout());
 		left.add(typecontrols, BorderLayout.NORTH);
 		left.add(all, BorderLayout.CENTER);
-		left.add(bottom,BorderLayout.SOUTH);
+		left.add(bottom, BorderLayout.SOUTH);
 
 		// splitright
 		right.setLayout(new GridLayout(0, 1));
@@ -266,9 +302,7 @@ public class CashmanagerView extends JFrame {
 		lafMenu.add(windowsRadioButtonMenuItem);
 		lafMenu.add(motifRadioButtonMenuItem);
 		lafMenu.add(nimbusRadioButtonMenuItem);
-		
-		
-		
+
 		mainMenuBar.add(fileMenu);
 		mainMenuBar.add(lafMenu);
 		mainMenuBar.add(toolbarMenu);
@@ -354,6 +388,19 @@ public class CashmanagerView extends JFrame {
 				}
 			}
 		});
+	}
+
+	private static Icon loadIcon(String iconName) {
+		final URL resource = CashmanagerView.class.getResource("/images/"
+				+ iconName);
+
+		if (resource == null) {
+			// TODO Replace by logger
+			System.err.println("Error in " + CashmanagerView.class.getName()
+					+ ": Icon /images/" + iconName + " could not be loaded.");
+			return new ImageIcon();
+		}
+		return new ImageIcon(resource);
 	}
 
 	public static Component emptyLabel() {

@@ -5,9 +5,11 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -34,21 +36,6 @@ import org.jbundle.thin.base.screen.jcalendarbutton.JCalendarButton;
 
 public class CashmanagerView extends JFrame {
 
-	
-	// Radio Buttons: Typecontrols
-
-			JPanel typecontrols = new JPanel(new FlowLayout(1));
-			JRadioButton einnahme = (JRadioButton) typecontrols
-					.add(new JRadioButton("Einnahme"));
-			JRadioButton ausgabe = (JRadioButton) typecontrols
-					.add(new JRadioButton("Ausgabe"));
-			JRadioButton budget = (JRadioButton) typecontrols.add(new JRadioButton(
-					"Budget"));
-			JRadioButton umbuchung = (JRadioButton) typecontrols
-					.add(new JRadioButton("Umbuchung"));
-			add(typecontrols, BorderLayout.NORTH);
-	
-
 	// JTABBEDPANE
 	JTabbedPane tabbedpane = new JTabbedPane();
 
@@ -58,9 +45,7 @@ public class CashmanagerView extends JFrame {
 			System.out.println("Selected paneNo : " + pane.getSelectedIndex());
 		}
 	}
-	 
-		
-		
+
 	// leftsplit
 	private static JPanel left = new JPanel(new GridLayout(2, 4));
 
@@ -69,6 +54,8 @@ public class CashmanagerView extends JFrame {
 	private JPanel titlePanel = new JPanel(new GridLayout(2, 1));
 	private JPanel secondaryPanel = new JPanel();
 	private JPanel right = new JPanel();
+	private JPanel all = new JPanel();
+	private JPanel bottom = new JPanel();
 
 	// JSPLITPANE
 	JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, left, right);
@@ -81,6 +68,8 @@ public class CashmanagerView extends JFrame {
 
 	// JLABELS
 	private JLabel title = new JLabel("Cashmanager");
+	
+	//Layout
 
 	// JBUTTONS
 	private JButton abschicken = new JButton("Absenden");
@@ -89,13 +78,24 @@ public class CashmanagerView extends JFrame {
 	// JCOMBOBOX
 	private String[] KategorieArray = { "Essen", "Freizeit", "Ausgang",
 			"Haushalt", };
+	private String[] KategorieArray2 = { "Essen", "Freizeit", "Ausgang",
+			"Haushalt", };
+	private String[] KategorieArray3 = { "Konto1", "Konto2", };
+	private String[] KategorieArray4 = { "Konto1", "Konto2", };
 
 	// KATEGORIE Combo Box
 	protected JComboBox kategorieBox = new JComboBox<Object>(KategorieArray);
+	protected JComboBox kategorieBox2 = new JComboBox<Object>(KategorieArray2);
+	protected JComboBox kategorieBox3 = new JComboBox<Object>(KategorieArray3);
+	protected JComboBox kategorieBox4 = new JComboBox<Object>(KategorieArray4);
 
 	// JTEXTFIELDS
 	protected final JTextField ItemName = new JTextField();
+	protected final JTextField ItemName2 = new JTextField();
+	protected final JTextField von = new JTextField();
+	protected final JTextField bis = new JTextField();
 	protected final JTextField ItemBetrag = new JTextField();
+	protected final JTextField ItemBetrag2 = new JTextField();
 	protected final JTextField ItemNameAusgabe = new JTextField();
 
 	// JMENU
@@ -124,6 +124,7 @@ public class CashmanagerView extends JFrame {
 		gui.setSize(1000, 700);
 		gui.setMinimumSize(new Dimension(1000, 700));
 		gui.setVisible(true);
+		gui.pack();
 	}
 
 	public CashmanagerView() {
@@ -136,9 +137,6 @@ public class CashmanagerView extends JFrame {
 		mainPanel.add(titlePanel, BorderLayout.NORTH);
 		mainPanel.add(tabbedpane);
 
-	
-
-		
 		// Tabbedpane
 		tabbedpane.add("Konto", secondaryPanel);
 
@@ -160,10 +158,73 @@ public class CashmanagerView extends JFrame {
 		secondaryPanel.add(split, BorderLayout.CENTER);
 		secondaryPanel.add(new JLabel("Kontostand: " + this.getName()),
 				BorderLayout.NORTH);
+	
+		// Radio Buttons: Typecontrols
 
-		
+		JPanel typecontrols = new JPanel(new FlowLayout(1));
+		JRadioButton einnahme = (JRadioButton) typecontrols
+				.add(new JRadioButton("Einnahme"));
+		JRadioButton ausgabe = (JRadioButton) typecontrols
+				.add(new JRadioButton("Ausgabe"));
+		JRadioButton budget = (JRadioButton) typecontrols.add(new JRadioButton(
+				"Budget"));
+		JRadioButton umbuchung = (JRadioButton) typecontrols
+				.add(new JRadioButton("Umbuchung"));
+		add(typecontrols, BorderLayout.NORTH);
 
+		// zweites formular
+		JPanel form2 = new JPanel(new GridLayout(0, 2));
+		form2.setBorder(BorderFactory.createTitledBorder("Ausgabe,Einnahme"));
+		form2.setSize(new Dimension(100,50));
+		form2.add(new JLabel("Name"), BorderLayout.CENTER);
+		form2.add(ItemName2);
+		form2.add(new JLabel("Kategorie"));
+		form2.add(kategorieBox2);
+		form2.add(new JLabel("Betrag"));
+		form2.add(ItemBetrag2);
+		form2.add(new JLabel("Datum"));
+		form2.add(emptyLabel());
+		form2.add(emptyLabel());
+		form2.add(emptyLabel());
+		form2.add(emptyLabel());
+		form2.add(emptyLabel());
+		form2.setSize(new Dimension(200,500));
 		
+		
+		//drittes formular
+		JPanel Abstand = new JPanel();
+		JPanel form3 = new JPanel(new GridLayout(0,1));
+		form3.setBorder(BorderFactory.createTitledBorder("Wenn Budget"));
+		form3.add(new JLabel("Von:"));
+		form3.add(new JLabel("Bis:"));
+		form3.add(Abstand,BorderLayout.SOUTH);
+		
+		
+		
+		
+		//viertes formular
+		JPanel form4 = new JPanel(new GridLayout(0, 2));
+		JPanel Abstand2 = new JPanel();
+		form4.setBorder(BorderFactory.createTitledBorder("Wenn Umbuchung"));
+		form4.add(new JLabel("Startkonto:"));
+		form4.add(kategorieBox3);
+		form4.add(new JLabel("Zielkonto:"));
+		form4.add(kategorieBox4);
+		form4.add(Abstand2,BorderLayout.SOUTH);
+		// Action event
+		ActionListener sliceActionListener = new ActionListener() {
+			public void actionPerformed(ActionEvent actionEvent) {
+				AbstractButton aButton = (AbstractButton) actionEvent
+						.getSource();
+				System.out.println("Selected: " + aButton.getText());
+				}
+		};
+
+		// JRadioButtons Actionlistener
+		einnahme.addActionListener(sliceActionListener);
+		ausgabe.addActionListener(sliceActionListener);
+		budget.addActionListener(sliceActionListener);
+		umbuchung.addActionListener(sliceActionListener);
 		
 		ButtonGroup group = new ButtonGroup();
 		group.add(einnahme);
@@ -171,29 +232,23 @@ public class CashmanagerView extends JFrame {
 		group.add(budget);
 		group.add(umbuchung);
 		
-		// Form Panel für Textfelder und Buttons
-				JPanel form = new JPanel(new GridLayout(7 ,2));
-				form.setBorder(BorderFactory.createTitledBorder("Ausgabe, Einahme"));
-				form.add(new JLabel("Name"), BorderLayout.CENTER);
-				form.add(ItemName);
-				form.add(new JLabel("Kategorie"));
-				form.add(kategorieBox);
-				form.add(new JLabel("Betrag"));
-				form.add(ItemBetrag);
-				form.add(new JLabel("Datum"));
-				form.add(emptyLabel());
-				form.add(emptyLabel());
-				form.add(abschicken);
-				form.add(emptyLabel());
-				form.add(emptyLabel());
-				form.add(emptyLabel());
-				form.add(neuesKonto);
+		
+		// Panel für linke seite für formular
+		//all.setLayout();
+		all.setLayout(new GridLayout(4,1));
+		all.add(form2);
+		all.add(form3);
+		all.add(form4);
 
+		//JPanel Bottom
+		bottom.add(abschicken);
+		bottom.add(neuesKonto);
+		
 		// splitleft
-		left.setBorder(BorderFactory.createEmptyBorder(0, 0, 300, 0));
 		left.setLayout(new BorderLayout());
 		left.add(typecontrols, BorderLayout.NORTH);
-		left.add(form, BorderLayout.CENTER);	
+		left.add(all, BorderLayout.CENTER);
+		left.add(bottom,BorderLayout.SOUTH);
 
 		// splitright
 		right.setLayout(new GridLayout(0, 1));
@@ -212,18 +267,16 @@ public class CashmanagerView extends JFrame {
 		lafMenu.add(windowsRadioButtonMenuItem);
 		lafMenu.add(motifRadioButtonMenuItem);
 		lafMenu.add(nimbusRadioButtonMenuItem);
-		// Date
-		final JPanel fromDatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		final JPanel untilDatePanel = new JPanel(
-				new FlowLayout(FlowLayout.LEFT));
+		
+		
+		
 		mainMenuBar.add(fileMenu);
 		mainMenuBar.add(lafMenu);
 		mainMenuBar.add(toolbarMenu);
 
 		// Menu Bar
 		setJMenuBar(mainMenuBar);
-			      
-			
+
 		// Configure laf radio button menu items
 		metalDefaultRadioButtonMenuItem.addActionListener(new ActionListener() {
 			@Override
@@ -308,4 +361,4 @@ public class CashmanagerView extends JFrame {
 		return new JLabel();
 
 	}
-}
+};

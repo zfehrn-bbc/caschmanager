@@ -7,6 +7,7 @@ public class Konto {
 	private double kontostand;
 	private String typ;
 
+	private Benutzer benutzer;
 	private Eintrag eintrag;
 
 	public void kontostandAendern() {
@@ -71,5 +72,13 @@ public class Konto {
 	public int getId() {
 		// TODO Auto-generated method stub
 		return id;
+	}
+
+	public Benutzer getBenutzer() {
+		return benutzer;
+	}
+
+	public void setBenutzer(Benutzer benutzer) {
+		this.benutzer = benutzer;
 	}
 }

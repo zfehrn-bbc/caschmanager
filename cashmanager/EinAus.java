@@ -15,6 +15,14 @@ public class EinAus extends Eintrag {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public EinAus(String typ) {
+		this.setTyp(typ);
+	}
+	
+	public EinAus() {
+		
+	}
 
 	public String getTyp() {
 		return typ;

@@ -38,8 +38,8 @@ public class UmbuchungJDBCDao implements UmbuchungDao {
 			um.setKategorie(rs.getString("UmbuchungKategorie"));
 			um.setBetrag(rs.getDouble("UmbuchungBetrag"));
 			um.setDatum(rs.getDate("UmbuchungDatum"));
-			um.setStartkonto(rs.getString("StartUmbuchung"));
-			um.setZielkonto(rs.getString("ZielUmbuchung"));
+			um.setStartkonto((Konto) rs.getObject("StartUmbuchung"));
+			um.setZielkonto((Konto) rs.getObject("ZielUmbuchung"));
 			break;
 		}
 		// con, ps und rs schliessen
@@ -64,8 +64,8 @@ public class UmbuchungJDBCDao implements UmbuchungDao {
 				ps.setString(i++, um.getKategorie());
 				ps.setDouble(i++, um.getBetrag());
 				ps.setDate(i++, (Date) um.getDatum());
-				ps.setString(i++, um.getStartkonto());
-				ps.setString(i++, um.getZielkonto());
+				ps.setObject(i++, um.getStartkonto());
+				ps.setObject(i++, um.getZielkonto());
 				ps.setInt(i++, k.getId());
 				ps.executeUpdate();
 				this.closeConnection();
@@ -91,8 +91,8 @@ public class UmbuchungJDBCDao implements UmbuchungDao {
 				ps.setString(i++, um.getName());
 				ps.setString(i++, um.getKategorie());
 				ps.setDouble(i++, um.getBetrag());
-				ps.setString(i++, um.getStartkonto());
-				ps.setString(i++, um.getZielkonto());
+				ps.setObject(i++, um.getStartkonto());
+				ps.setObject(i++, um.getZielkonto());
 				ps.setInt(i++, um.getId());
 				ps.executeUpdate();
 				this.closeConnection();

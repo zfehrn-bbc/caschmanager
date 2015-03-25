@@ -2,8 +2,8 @@ package cashmanager.cashmanager;
 
 public class Umbuchung extends Eintrag {
 	
-	private String startkonto;
-	private String zielkonto;
+	private Konto startkonto;
+	private Konto zielkonto;
 	
 	@Override
 	public double betragAendern() {
@@ -15,19 +15,19 @@ public class Umbuchung extends Eintrag {
 		// TODO Auto-generated method stub
 	}
 
-	public String getStartkonto() {
+	public Konto getStartkonto() {
 		return startkonto;
 	}
 
-	public void setStartkonto(String startkonto) {
+	public void setStartkonto(Konto startkonto) {
 		this.startkonto = startkonto;
 	}
 
-	public String getZielkonto() {
+	public Konto getZielkonto() {
 		return zielkonto;
 	}
 
-	public void setZielkonto(String zielkonto) {
+	public void setZielkonto(Konto zielkonto) {
 		this.zielkonto = zielkonto;
 	}
 	public String toString(){

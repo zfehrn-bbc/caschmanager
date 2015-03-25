@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import cashmanager.cashmanager.Benutzer;
@@ -37,7 +36,7 @@ public class KontoController {
 	private Umbuchung			umbuchung;
 	
 	private List<Konto>		kontoliste		= new ArrayList<Konto>();
-	private HashMap allEntries = new HashMap();
+	private List<Object>	allEntries		= new ArrayList<Object>();
 	
 	public Benutzer loadBenutzer(Benutzer b, int id) {
 		b.setId(id);
@@ -197,7 +196,8 @@ public class KontoController {
 		}
 	}
 	
-	public void createUmbuchung(double betrag, Date datum, String kategorie, String name, Konto startkonto, Konto zielkonto, Konto welchesKonto) {
+	public void createUmbuchung(double betrag, Date datum, String kategorie,
+			String name, Konto startkonto, Konto zielkonto, Konto welchesKonto) {
 		Umbuchung um = new Umbuchung();
 		um.setBetrag(betrag);
 		um.setDatum(datum);
@@ -235,13 +235,39 @@ public class KontoController {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}		
+	}
+	
+	public void saveAllEntries() {
 		
 	}
 	
-	public void loadAll() {
-		
-		
+	public List<Object> loadAllEntries(Konto k) {
+		try {
+			Collection<Integer> eintraege = EintragDao.getAllId(k);
+			Collection<Integer> budgets = BudgetDao.getAllId(k);
+			Collection<Integer> umbuchungen = UmbuchungDao.getAllId(k);
+			
+			for (int id : eintraege) {
+				EinAus ea = EintragDao.findEinAusById(id);
+				allEntries.add(ea);
+			}
+			
+			for (int id : budgets) {
+				Budget bud = BudgetDao.findBudgetById(id);
+				allEntries.add(bud);
+			}
+			
+			for (int id : umbuchungen) {
+				Umbuchung um = UmbuchungDao.findUmbuchungById(id);
+				allEntries.add(um);
+			}
+			return allEntries;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public Konto getKonto() {

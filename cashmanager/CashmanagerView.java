@@ -30,6 +30,7 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -146,12 +147,76 @@ public class CashmanagerView extends JFrame {
 
 		// Tabbedpane
 		tabbedpane.add("Konto", secondaryPanel);
+		
+		// Toolbar
+				final JCheckBoxMenuItem toolbarCheckBoxMenuItem = new JCheckBoxMenuItem(
+						"Toolbar anzeigen");
+				toolbarMenu.add(toolbarCheckBoxMenuItem);
+
+				// Datei
+				final Icon exitImageIcon = loadIcon("exit_large.png");
+				final Icon printImageIcon = loadIcon("printer.png");
+				final Icon neuesKontoImageIcon = loadIcon("add.png");
+				
+				//Icons für Toolbar
+				final Icon exitImageIcon2 = loadIcon("exit.png");
+				final Icon neuesKontoImageIcon2 = loadIcon("add2.png");
+				final Icon printImageIcon2 = loadIcon("printer2.png");
+		
+		// JMenuItem
+				final JMenuItem exitMenuItem = new JMenuItem("Verlassen", exitImageIcon);
+				final JMenuItem printMenuItem = new JMenuItem("Drucken",printImageIcon);
+				final JMenuItem newkontoItem = new JMenuItem("Neues Konto?", neuesKontoImageIcon);
+				
+				// Add to fileMenu
+				fileMenu.add(exitMenuItem);
+				fileMenu.add(printMenuItem);
+				fileMenu.add(newkontoItem);
+				
+				//Menu item 'Neues Konto?'
+				newkontoItem.setMnemonic(KeyEvent.VK_K);
+				exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_K,
+						ActionEvent.CTRL_MASK));
+				exitMenuItem.addActionListener(new NewKontoListener(this));
+
+				// Menu item 'exit'
+				exitMenuItem.setMnemonic(KeyEvent.VK_C);
+				exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,
+						ActionEvent.CTRL_MASK));
+				exitMenuItem.addActionListener(new ExitListener(this));
+
+				// Menu item 'print'
+				printMenuItem.setMnemonic(KeyEvent.VK_P);
+				printMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
+						ActionEvent.CTRL_MASK));
+				printMenuItem.addActionListener(new PrintListener(this));
+		
+		//Toolbar wird erstellt
+				JToolBar tbar = new JToolBar();
+				tbar.add(new JButton("Verlassen", exitImageIcon2));
+		        tbar.add(new JButton("Neues Konto?", neuesKontoImageIcon2));
+		        tbar.add(new JButton("Drucken",printImageIcon2));
+		        tbar.setLocation(0,-20 );
+				
+		     // Configure checkbox menu item
+		     		toolbarCheckBoxMenuItem.setSelected(true);
+		     		toolbarCheckBoxMenuItem.addActionListener(new ActionListener() {
+		     			@Override
+		     			public void actionPerformed(ActionEvent arg0) {
+		     				if (toolbarCheckBoxMenuItem.isSelected()) {
+		     					// Add tool bar to info panel
+		     					tbar.setVisible(true);
+		     				} else {
+		     					// Remove tool bar from info panel
+		     					tbar.setVisible(false);
+		     				}
+		     			}
+		     		});
 
 		// TitlePanel
 		titlePanel.setLayout(new GridLayout(2, 1));
 		titlePanel.add(title);
-		titlePanel.add(new JLabel("Willkommen " + this.getName()));
-
+		titlePanel.add(tbar);
 		// title
 		title.setFont(title.getFont().deriveFont(30.0f));
 
@@ -164,44 +229,6 @@ public class CashmanagerView extends JFrame {
 		secondaryPanel.add(split, BorderLayout.CENTER);
 		secondaryPanel.add(new JLabel("Kontostand: " + this.getName()),
 				BorderLayout.NORTH);
-
-		// Toolbar
-		final JCheckBoxMenuItem toolbarCheckBoxMenuItem = new JCheckBoxMenuItem(
-				"Toolbar anzeigen");
-		toolbarMenu.add(toolbarCheckBoxMenuItem);
-
-		// Datei
-		final Icon exitImageIcon = loadIcon("exit_large.png");
-		final Icon printImageIcon = loadIcon("printer.png");
-		final Icon neuesKontoImageIcon = loadIcon("add.png");
-
-		// JMenuItem
-		final JMenuItem exitMenuItem = new JMenuItem("Verlassen", exitImageIcon);
-		final JMenuItem printMenuItem = new JMenuItem("Drucken",printImageIcon);
-		final JMenuItem newkontoItem = new JMenuItem("Neues Konto?", neuesKontoImageIcon);
-		
-		// Add to fileMenu
-		fileMenu.add(exitMenuItem);
-		fileMenu.add(printMenuItem);
-		fileMenu.add(newkontoItem);
-		
-		//Menu item 'Neues Konto?'
-		newkontoItem.setMnemonic(KeyEvent.VK_K);
-		exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_K,
-				ActionEvent.CTRL_MASK));
-		exitMenuItem.addActionListener(new NewKontoListener(this));
-
-		// Menu item 'exit'
-		exitMenuItem.setMnemonic(KeyEvent.VK_C);
-		exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,
-				ActionEvent.CTRL_MASK));
-		exitMenuItem.addActionListener(new ExitListener(this));
-
-		// Menu item 'print'
-		printMenuItem.setMnemonic(KeyEvent.VK_P);
-		printMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
-				ActionEvent.CTRL_MASK));
-		printMenuItem.addActionListener(new PrintListener(this));
 
 		// Radio Buttons: Typecontrols
 
@@ -306,10 +333,10 @@ public class CashmanagerView extends JFrame {
 		mainMenuBar.add(fileMenu);
 		mainMenuBar.add(lafMenu);
 		mainMenuBar.add(toolbarMenu);
-
+        
 		// Menu Bar
 		setJMenuBar(mainMenuBar);
-
+		
 		// Configure laf radio button menu items
 		metalDefaultRadioButtonMenuItem.addActionListener(new ActionListener() {
 			@Override

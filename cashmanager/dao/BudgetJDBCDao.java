@@ -51,29 +51,26 @@ public class BudgetJDBCDao implements BudgetDao {
 		
 		if (bud != null) {
 			
-			if (!getAllId(k).contains(bud.getId())) {
-				
-				// Benutzer einfügen
-				String sql = "INSERT INTO CASHMANAGER.Budget (ID_Budget, BudgetName, BudgetKategorie, BudgetBetrag, BudgetDatum,"
-						+ "VonBudget, BisBudget, Konto_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-				con = openConnection();
-				ps = (PreparedStatement) con.prepareStatement(sql);
-				int i = 1;
-				ps.setInt(i++, bud.getId());
-				ps.setString(i++, bud.getName());
-				ps.setString(i++, bud.getKategorie());
-				ps.setDouble(i++, bud.getBetrag());
-				ps.setDate(i++, (Date) bud.getDatum());
-				ps.setDate(i++, (Date) bud.getVonBudget());
-				ps.setDate(i++, (Date) bud.getBisBudget());
-				ps.setInt(i++, k.getId());
-				ps.executeUpdate();
-				this.closeConnection();
-			} else {
-				
-				// Update driver
-				this.updateBudget(bud, k);
-			}
+			// Benutzer einfügen
+			String sql = "INSERT INTO CASHMANAGER.Budget (ID_Budget, BudgetName, BudgetKategorie, BudgetBetrag, BudgetDatum,"
+					+ "VonBudget, BisBudget, Konto_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+			con = openConnection();
+			ps = (PreparedStatement) con.prepareStatement(sql);
+			int i = 1;
+			ps.setInt(i++, bud.getId());
+			ps.setString(i++, bud.getName());
+			ps.setString(i++, bud.getKategorie());
+			ps.setDouble(i++, bud.getBetrag());
+			ps.setDate(i++, (Date) bud.getDatum());
+			ps.setDate(i++, (Date) bud.getVonBudget());
+			ps.setDate(i++, (Date) bud.getBisBudget());
+			ps.setInt(i++, k.getId());
+			ps.executeUpdate();
+			this.closeConnection();
+		} else {
+			
+			// Update driver
+			this.updateBudget(bud, k);
 		}
 	}
 	

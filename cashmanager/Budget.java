@@ -1,11 +1,14 @@
 package cashmanager.cashmanager;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class Budget extends Eintrag {
 	
-	private Date vonBudget = new Date();
-	private Date bisBudget = new Date();
+	private java.util.Date utildatum = Calendar.getInstance().getTime();
+	
+	private java.sql.Date vonBudget = new java.sql.Date(utildatum.getTime());
+	private java.sql.Date bisBudget = new java.sql.Date(utildatum.getTime());
 	
 	@Override
 	public double betragAendern() {
@@ -33,7 +36,7 @@ public class Budget extends Eintrag {
 		return vonBudget;
 	}
 
-	public void setVonBudget(Date vonBudget) {
+	public void setVonBudget(java.sql.Date vonBudget) {
 		this.vonBudget = vonBudget;
 	}
 
@@ -41,7 +44,7 @@ public class Budget extends Eintrag {
 		return bisBudget;
 	}
 
-	public void setBisBudget(Date bisBudget) {
+	public void setBisBudget(java.sql.Date bisBudget) {
 		this.bisBudget = bisBudget;
 	}
 

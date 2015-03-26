@@ -50,9 +50,9 @@ public class EintragJDBCDao implements EintragDao {
 		
 		if (ea != null) {
 			
-			if (!getAllId(k).contains(ea.getId())) {
+			//if (!getAllId(k).contains(ea.getId())) {
 				
-				// Benutzer einfügen
+				// Neuen Eintrag einfügen
 				String sql = "INSERT INTO CASHMANAGER.Eintrag (ID_Eintrag, EintragName, EintragKategorie, EintragBetrag, EintragDatum,"
 						+ "EintragTyp, Konto_ID) VALUES (?, ?, ?, ?, ?, ?, ?)";
 				con = openConnection();
@@ -62,8 +62,9 @@ public class EintragJDBCDao implements EintragDao {
 				ps.setString(i++, ea.getName());
 				ps.setString(i++, ea.getKategorie());
 				ps.setDouble(i++, ea.getBetrag());
-				ps.setDate(i++, (Date) ea.getDatum());
-				ps.setString(i++, ea.getTyp());;
+				ps.setDate(i++, (java.sql.Date) ea.getDatum());
+				ps.setString(i++, ea.getTyp());
+				;
 				ps.setInt(i++, k.getId());
 				ps.executeUpdate();
 				this.closeConnection();
@@ -73,7 +74,7 @@ public class EintragJDBCDao implements EintragDao {
 				this.updateEintrag(ea, k);
 			}
 		}
-	}
+//	}
 	
 	// Benutzer erneuern falls Daten geändert wurden
 	private void updateEintrag(EinAus ea, Konto k) throws SQLException {

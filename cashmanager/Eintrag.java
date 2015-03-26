@@ -1,5 +1,6 @@
 package cashmanager.cashmanager;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public abstract class Eintrag {
@@ -8,7 +9,8 @@ public abstract class Eintrag {
 	private double betrag;
 	private String kategorie;
 	private String name;
-	private Date datum = new Date();
+	private java.util.Date utildatum = Calendar.getInstance().getTime();
+	private java.sql.Date sqldatum = new java.sql.Date(utildatum.getTime());
 	
 	public abstract double betragAendern();
 	
@@ -39,11 +41,11 @@ public abstract class Eintrag {
 	}
 
 	public Date getDatum() {
-		return datum;
+		return sqldatum;
 	}
 
-	public void setDatum(Date datum) {
-		this.datum = datum;
+	public void setDatum(java.sql.Date sqldatum) {
+		this.sqldatum = sqldatum;
 	}
 	
 	public String toString() {

@@ -9,18 +9,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.net.URL;
+import java.sql.Date;
+import java.util.Calendar;
 
-import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -33,6 +32,7 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -45,11 +45,14 @@ import javax.swing.plaf.metal.OceanTheme;
 import org.jbundle.thin.base.screen.jcalendarbutton.JCalendarButton;
 
 import cashmanager.cashmanager.controller.KontoController;
+import cashmanager.cashmanager.exceptions.EintragException;
 
 public class CashmanagerView extends JFrame {
 	
+	protected static final Object	MSG_SUCCESS	= "Daten erfolgreich eingetragen!";
+	
 	// JTABBEDPANE
-	JTabbedPane	tabbedpane	= new JTabbedPane();
+	JTabbedPane										tabbedpane	= new JTabbedPane();
 	
 	public void stateChanged(ChangeEvent e) {
 		if (e.getSource() instanceof JTabbedPane) {
@@ -144,6 +147,8 @@ public class CashmanagerView extends JFrame {
 	
 	private KontoController								CONTROLLER											= null;
 	
+	private NewKontoView									nkw															= null;
+	
 	public static void main(String[] args) {
 		CashmanagerView gui = new CashmanagerView();
 		gui.setSize(1000, 700);
@@ -152,11 +157,15 @@ public class CashmanagerView extends JFrame {
 		gui.pack();
 	}
 	
-	public void newKontoView() {
-		new JDialog();
+	public CashmanagerView() {
+		initUI();
 	}
 	
-	public CashmanagerView() {
+	private void initUI() {
+		
+		// Kontroller instanzieren
+		CONTROLLER = new KontoController();
+		
 		setTitle("Cashmanger");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
@@ -169,24 +178,6 @@ public class CashmanagerView extends JFrame {
 		// Tabbedpane
 		tabbedpane.add("Konto", secondaryPanel);
 		
-		// TitlePanel
-		titlePanel.setLayout(new GridLayout(2, 1));
-		titlePanel.add(title);
-		titlePanel.add(new JLabel("Willkommen " + this.getName()));
-		
-		// title
-		title.setFont(title.getFont().deriveFont(30.0f));
-		
-		// split settings
-		split.setContinuousLayout(true);
-		split.setPreferredSize(new Dimension(1000, 500));
-		
-		// secondaryPanel
-		secondaryPanel.setLayout(new BorderLayout());
-		secondaryPanel.add(split, BorderLayout.CENTER);
-		secondaryPanel.add(new JLabel("Kontostand: " + this.getName()),
-				BorderLayout.NORTH);
-		
 		// Toolbar
 		final JCheckBoxMenuItem toolbarCheckBoxMenuItem = new JCheckBoxMenuItem(
 				"Toolbar anzeigen");
@@ -196,6 +187,11 @@ public class CashmanagerView extends JFrame {
 		final Icon exitImageIcon = loadIcon("exit_large.png");
 		final Icon printImageIcon = loadIcon("printer.png");
 		final Icon neuesKontoImageIcon = loadIcon("add.png");
+		
+		// Icons für Toolbar
+		final Icon exitImageIcon2 = loadIcon("exit.png");
+		final Icon neuesKontoImageIcon2 = loadIcon("add2.png");
+		final Icon printImageIcon2 = loadIcon("printer2.png");
 		
 		// JMenuItem
 		final JMenuItem exitMenuItem = new JMenuItem("Verlassen", exitImageIcon);
@@ -220,11 +216,57 @@ public class CashmanagerView extends JFrame {
 				ActionEvent.CTRL_MASK));
 		exitMenuItem.addActionListener(new ExitListener(this));
 		
+		// Menu item 'exit' Toolbar
+		exitMenuItem.setMnemonic(KeyEvent.VK_C);
+		exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,
+				ActionEvent.CTRL_MASK));
+		exitMenuItem.addActionListener(new ExitListener(this));
+		
 		// Menu item 'print'
 		printMenuItem.setMnemonic(KeyEvent.VK_P);
 		printMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
 				ActionEvent.CTRL_MASK));
 		printMenuItem.addActionListener(new PrintListener(this));
+		
+		// Toolbar wird erstellt
+		JToolBar tbar = new JToolBar();
+		tbar.add(new JButton("Verlassen", exitImageIcon2));
+		tbar.add(new JButton("Neues Konto?", neuesKontoImageIcon2));
+		tbar.add(new JButton("Drucken", printImageIcon2));
+		tbar.setLocation(0, -20);
+		
+		// Configure checkbox menu item
+		toolbarCheckBoxMenuItem.setSelected(true);
+		toolbarCheckBoxMenuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (toolbarCheckBoxMenuItem.isSelected()) {
+					// Add tool bar to info panel
+					tbar.setVisible(true);
+				} else {
+					// Remove tool bar from info panel
+					tbar.setVisible(false);
+				}
+			}
+		});
+		
+		// TitlePanel
+		titlePanel.setLayout(new GridLayout(2, 1));
+		titlePanel.add(title);
+		titlePanel.add(tbar);
+		
+		// title
+		title.setFont(title.getFont().deriveFont(30.0f));
+		
+		// split settings
+		split.setContinuousLayout(true);
+		split.setPreferredSize(new Dimension(1000, 500));
+		
+		// secondaryPanel
+		secondaryPanel.setLayout(new BorderLayout());
+		secondaryPanel.add(split, BorderLayout.CENTER);
+		secondaryPanel.add(new JLabel("Kontostand: " + this.getName()),
+				BorderLayout.NORTH);
 		
 		// Radio Buttons: Typecontrols
 		
@@ -238,6 +280,11 @@ public class CashmanagerView extends JFrame {
 		JRadioButton umbuchung = (JRadioButton) typecontrols.add(new JRadioButton(
 				"Umbuchung"));
 		add(typecontrols, BorderLayout.NORTH);
+		
+		// Datumbuttons default setzen
+		dateCalendarButton.setTargetDate(Calendar.getInstance().getTime());
+		fromCalendarButton.setTargetDate(Calendar.getInstance().getTime());
+		untilCalendarButton.setTargetDate(Calendar.getInstance().getTime());
 		
 		// zweites formular
 		JPanel form2 = new JPanel(new GridLayout(0, 2));
@@ -276,6 +323,11 @@ public class CashmanagerView extends JFrame {
 		form4.add(kontoBox2);
 		form4.add(Abstand2, BorderLayout.SOUTH);
 		
+		// Starteinstellungen für Formular
+		form3.setVisible(false);
+		form4.setVisible(false);
+		form2.setBorder(BorderFactory.createEmptyBorder(0, 0, 300, 0));
+		
 		// Action event
 		ActionListener sliceActionListener = new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
@@ -283,19 +335,17 @@ public class CashmanagerView extends JFrame {
 					form3.setVisible(false);
 					form4.setVisible(false);
 					form2.setBorder(BorderFactory.createEmptyBorder(0, 0, 300, 0));
-				}
-				else if (budget.isSelected()) {
+				} else if (budget.isSelected()) {
 					form2.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 					form3.setVisible(true);
 					form4.setVisible(false);
-				}
-				else {
+				} else {
 					form2.setVisible(true);
 					form2.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 					form3.setVisible(true);
 					form4.setVisible(true);
 				}
-			} 
+			}
 		};
 		
 		// JRadioButtons Actionlistener
@@ -304,14 +354,14 @@ public class CashmanagerView extends JFrame {
 		budget.addActionListener(sliceActionListener);
 		umbuchung.addActionListener(sliceActionListener);
 		
-		einnahme.isSelected();
+		einnahme.setSelected(true);
 		
 		ButtonGroup group = new ButtonGroup();
 		group.add(einnahme);
 		group.add(ausgabe);
 		group.add(budget);
 		group.add(umbuchung);
-	
+		
 		// Panel für linke seite für formular
 		all.setLayout(new BoxLayout(all, BoxLayout.Y_AXIS));
 		all.add(form2);
@@ -326,27 +376,54 @@ public class CashmanagerView extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (einnahme.isSelected()) {
-					/*CONTROLLER.createEintrag("Einnahme",
-							Double.parseDouble(ItemBetrag.getText()),
-							dateCalendarButton.getTargetDate(),
-							kategorieBox.getActionCommand(), ItemName.getText(),
-							CONTROLLER.getKonto() );*/
-				} else if (ausgabe.isSelected()) {
+					CONTROLLER.createEintrag("Einnahme", Double.parseDouble(ItemBetrag
+							.getText()), new java.sql.Date(dateCalendarButton.getTargetDate()
+							.getTime()), kategorieBox.getSelectedItem().toString(), ItemName
+							.getText(), CONTROLLER.loadKonto(2));
 					
+					ItemBetrag.setText("");
+					ItemName.setText("");
+					dateCalendarButton.setTargetDate(Calendar.getInstance().getTime());
+					
+					JOptionPane.showMessageDialog(null, MSG_SUCCESS);
+				} else if (ausgabe.isSelected()) {
+					CONTROLLER.createEintrag("Ausgabe", Double.parseDouble(ItemBetrag
+							.getText()), new java.sql.Date(dateCalendarButton.getTargetDate()
+							.getTime()), kategorieBox.getSelectedItem().toString(), ItemName
+							.getText(), CONTROLLER.loadKonto(2));
+					
+					ItemBetrag.setText("");
+					ItemName.setText("");
+					dateCalendarButton.setTargetDate(Calendar.getInstance().getTime());
+					
+					JOptionPane.showMessageDialog(null, MSG_SUCCESS);
 				} else if (budget.isSelected()) {
+					CONTROLLER.createBudget(Double.parseDouble(ItemBetrag.getText()),
+							new java.sql.Date(fromCalendarButton.getTargetDate().getTime()),
+							new java.sql.Date(untilCalendarButton.getTargetDate().getTime()),
+							new java.sql.Date(dateCalendarButton.getTargetDate().getTime()),
+							kategorieBox.getSelectedItem().toString(), ItemName.getText(),
+							CONTROLLER.loadKonto(2));
+					
+					ItemBetrag.setText("");
+					ItemName.setText("");
+					dateCalendarButton.setTargetDate(Calendar.getInstance().getTime());
+					fromCalendarButton.setTargetDate(Calendar.getInstance().getTime());
+					untilCalendarButton.setTargetDate(Calendar.getInstance().getTime());
+					
+					JOptionPane.showMessageDialog(null, MSG_SUCCESS);
 					
 				} else if (umbuchung.isSelected()) {
 					
 				}
-				// Beispiel: p.setLand(customerCountryBox.getName());
 			}
 		});
 		
 		neuesKonto.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				
-				// Beispiel: p.setLand(customerCountryBox.getName());
+				NewKontoView nkw = new NewKontoView();
+				nkw.setVisible(true);
 			}
 		});
 		
@@ -466,6 +543,11 @@ public class CashmanagerView extends JFrame {
 			return new ImageIcon();
 		}
 		return new ImageIcon(resource);
+	}
+	
+	private void showMessageDialog(Component c, String errorMsg) {
+		JOptionPane.showMessageDialog(c, errorMsg, "Fehler",
+				JOptionPane.ERROR_MESSAGE);
 	}
 	
 	public static Component emptyLabel() {

@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.net.URL;
+import java.util.Date;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
@@ -106,6 +107,11 @@ public class CashmanagerView extends JFrame {
 	protected final JTextField ItemBetrag2 = new JTextField();
 	protected final JTextField ItemNameAusgabe = new JTextField();
 
+	//JCalendarButtons
+			JCalendarButton date1 = new JCalendarButton();
+			JCalendarButton date2 = new JCalendarButton();
+			JCalendarButton date3 = new JCalendarButton();
+	
 	// JMENU
 	protected final JMenuBar mainMenuBar = new JMenuBar();
 
@@ -253,16 +259,17 @@ public class CashmanagerView extends JFrame {
 		form2.add(new JLabel("Betrag"));
 		form2.add(ItemBetrag2);
 		form2.add(new JLabel("Datum"));
-		form2.add(new JCalendarButton());
+		form2.add(date1);
 
+		
 		// drittes formular
 		JPanel Abstand = new JPanel();
 		JPanel form3 = new JPanel(new GridLayout(0, 2));
 		form3.setBorder(BorderFactory.createTitledBorder("Wenn Budget"));
 		form3.add(new JLabel("Von:"));
-		form3.add(new JCalendarButton());
+		form3.add(date3);
 		form3.add(new JLabel("Bis:"));
-		form3.add(new JCalendarButton());
+		form3.add(date2);
 		form3.add(Abstand, BorderLayout.SOUTH);
 
 		// viertes formular
@@ -284,6 +291,10 @@ public class CashmanagerView extends JFrame {
 			}
 		};
 
+		//Date selector
+		
+		
+		
 		// JRadioButtons Actionlistener
 		einnahme.addActionListener(sliceActionListener);
 		ausgabe.addActionListener(sliceActionListener);

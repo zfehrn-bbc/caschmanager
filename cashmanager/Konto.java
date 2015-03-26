@@ -21,6 +21,17 @@ public class Konto {
 	public void kontoBearbeiten() {
 		
 	}
+	
+	public Konto(int id, String name, double kontostand, String typ, Benutzer benutzer) {
+		this.setId(id);
+		this.setName(name);
+		this.setKontostand(kontostand);
+		this.setTyp(typ);
+		this.setBenutzer(benutzer);		
+	}
+	
+	public Konto() {
+	}
 
 	public String getName() {
 		return name;

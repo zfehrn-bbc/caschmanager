@@ -4,11 +4,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import cashmanager.cashmanager.Benutzer;
 import cashmanager.cashmanager.Budget;
+import cashmanager.cashmanager.CashmanagerView;
 import cashmanager.cashmanager.EinAus;
 import cashmanager.cashmanager.Konto;
 import cashmanager.cashmanager.Umbuchung;
@@ -24,20 +24,22 @@ import cashmanager.cashmanager.dao.UmbuchungDao;
 import cashmanager.cashmanager.dao.UmbuchungJDBCDao;
 
 public class KontoController {
-	private BenutzerDao		benutzerjdbc	= new BenutzerJDBCDao();
-	private BudgetDao			budgetjdbc		= new BudgetJDBCDao();
-	private EintragDao		eintragjdbc		= new EintragJDBCDao();
-	private KontoDao			kontojdbc			= new KontoJDBCDao();
-	private UmbuchungDao	umbuchungjdbc	= new UmbuchungJDBCDao();
+	private BenutzerDao			benutzerjdbc	= new BenutzerJDBCDao();
+	private BudgetDao				budgetjdbc		= new BudgetJDBCDao();
+	private EintragDao			eintragjdbc		= new EintragJDBCDao();
+	private KontoDao				kontojdbc			= new KontoJDBCDao();
+	private UmbuchungDao		umbuchungjdbc	= new UmbuchungJDBCDao();
 	
-	private Konto					konto;
-	private Benutzer			benutzer;
-	private EinAus				einaus;
-	private Budget				budget;
-	private Umbuchung			umbuchung;
+	private Konto						konto;
+	private Benutzer				benutzer;
+	private EinAus					einaus;
+	private Budget					budget;
+	private Umbuchung				umbuchung;
 	
-	private List<Konto>		kontoliste		= new ArrayList<Konto>();
-	private HashMap allEntries = new HashMap();
+	private List<Konto>			kontoliste		= new ArrayList<Konto>();
+	private List<Object>		allEntries		= new ArrayList<Object>();
+	
+	private CashmanagerView	VIEW					= null;
 	
 	public Benutzer loadBenutzer(Benutzer b, int id) {
 		b.setId(id);
@@ -126,7 +128,7 @@ public class KontoController {
 		Konto k = welchesKonto;
 		
 		try {
-			EintragDao.insertEinAus(ea, k);
+			EintragDao.insertEintrag(ea, k);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -135,7 +137,7 @@ public class KontoController {
 	
 	public EinAus loadEintrag(int id) {
 		try {
-			EinAus ea = EintragDao.findEinAusById(id);
+			EinAus ea = EintragDao.findEintragById(id);
 			return ea;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -147,7 +149,7 @@ public class KontoController {
 	public void deleteEintrag() {
 		EinAus ea = this.getEinaus();
 		try {
-			EintragDao.deleteEinAus(ea);
+			EintragDao.deleteEintrag(ea);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -197,7 +199,8 @@ public class KontoController {
 		}
 	}
 	
-	public void createUmbuchung(double betrag, Date datum, String kategorie, String name, Konto startkonto, Konto zielkonto, Konto welchesKonto) {
+	public void createUmbuchung(double betrag, Date datum, String kategorie,
+			String name, Konto startkonto, Konto zielkonto, Konto welchesKonto) {
 		Umbuchung um = new Umbuchung();
 		um.setBetrag(betrag);
 		um.setDatum(datum);
@@ -236,12 +239,59 @@ public class KontoController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void saveAllEntries() {
 		
 	}
 	
-	public void loadAll() {
-		
-		
+	public List<Object> loadAllEntries(Konto k) {
+		try {
+			Collection<Integer> eintraege = EintragDao.getAllId(k);
+			Collection<Integer> budgets = BudgetDao.getAllId(k);
+			Collection<Integer> umbuchungen = UmbuchungDao.getAllId(k);
+			
+			for (int id : eintraege) {
+				EinAus ea = EintragDao.findEintragById(id);
+				allEntries.add(ea);
+			}
+			
+			for (int id : budgets) {
+				Budget bud = BudgetDao.findBudgetById(id);
+				allEntries.add(bud);
+			}
+			
+			for (int id : umbuchungen) {
+				Umbuchung um = UmbuchungDao.findUmbuchungById(id);
+				allEntries.add(um);
+			}
+			return allEntries;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public void checkKonto() {
+		try {
+			if (KontoDao.getAllId(this.getBenutzer()) == null) {
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void checkBenutzer() {
+		try {
+			if (BenutzerDao.getAllId() == null) {
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public Konto getKonto() {

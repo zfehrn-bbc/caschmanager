@@ -125,7 +125,7 @@ public class KontoController {
 		Konto k = welchesKonto;
 		
 		try {
-			EintragDao.insertEinAus(ea, k);
+			EintragDao.insertEintrag(ea, k);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -134,7 +134,7 @@ public class KontoController {
 	
 	public EinAus loadEintrag(int id) {
 		try {
-			EinAus ea = EintragDao.findEinAusById(id);
+			EinAus ea = EintragDao.findEintragById(id);
 			return ea;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -146,7 +146,7 @@ public class KontoController {
 	public void deleteEintrag() {
 		EinAus ea = this.getEinaus();
 		try {
-			EintragDao.deleteEinAus(ea);
+			EintragDao.deleteEintrag(ea);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -235,7 +235,7 @@ public class KontoController {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
+		}
 	}
 	
 	public void saveAllEntries() {
@@ -249,7 +249,7 @@ public class KontoController {
 			Collection<Integer> umbuchungen = UmbuchungDao.getAllId(k);
 			
 			for (int id : eintraege) {
-				EinAus ea = EintragDao.findEinAusById(id);
+				EinAus ea = EintragDao.findEintragById(id);
 				allEntries.add(ea);
 			}
 			

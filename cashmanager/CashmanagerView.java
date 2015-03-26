@@ -14,16 +14,19 @@ import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JRadioButtonMenuItem;
@@ -79,24 +82,15 @@ public class CashmanagerView extends JFrame {
 																																						right);
 	
 	// JCALENDERBUTTONS
-	protected JCalendarButton							fromCalendarButton;
-	protected JCalendarButton							untilCalendarButton;
+	protected JCalendarButton							fromCalendarButton							= new JCalendarButton();
+	protected JCalendarButton							untilCalendarButton							= new JCalendarButton();
+	protected JCalendarButton							dateCalendarButton							= new JCalendarButton();
 	protected final JLabel								fromDateLabel										= new JLabel();
 	protected final JLabel								untilDateLabel									= new JLabel();
 	
 	// JLABELS
-<<<<<<< HEAD
 	private JLabel												title														= new JLabel(
 																																						"Cashmanager");
-	
-	// Layout
-	
-=======
-	private JLabel title = new JLabel("Cashmanager");
-
-	// Layout
-
->>>>>>> origin/master
 	// JBUTTONS
 	private JButton												abschicken											= new JButton(
 																																						"Absenden");
@@ -106,30 +100,22 @@ public class CashmanagerView extends JFrame {
 	// JCOMBOBOX
 	private String[]											KategorieArray									= {
 			"Essen", "Freizeit", "Ausgang", "Haushalt",											};
-	private String[]											KategorieArray2									= {
-			"Essen", "Freizeit", "Ausgang", "Haushalt",											};
-	private String[]											KategorieArray3									= {
-			"Konto1", "Konto2",																							};
-	private String[]											KategorieArray4									= {
+	private String[]											KontoArray											= {
 			"Konto1", "Konto2",																							};
 	
 	// KATEGORIE Combo Box
 	protected JComboBox										kategorieBox										= new JComboBox<Object>(
 																																						KategorieArray);
-	protected JComboBox										kategorieBox2										= new JComboBox<Object>(
-																																						KategorieArray2);
-	protected JComboBox										kategorieBox3										= new JComboBox<Object>(
-																																						KategorieArray3);
-	protected JComboBox										kategorieBox4										= new JComboBox<Object>(
-																																						KategorieArray4);
+	protected JComboBox										kontoBox												= new JComboBox<Object>(
+																																						KontoArray);
+	protected JComboBox										kontoBox2												= new JComboBox<Object>(
+																																						KontoArray);
 	
 	// JTEXTFIELDS
 	protected final JTextField						ItemName												= new JTextField();
-	protected final JTextField						ItemName2												= new JTextField();
 	protected final JTextField						von															= new JTextField();
 	protected final JTextField						bis															= new JTextField();
 	protected final JTextField						ItemBetrag											= new JTextField();
-	protected final JTextField						ItemBetrag2											= new JTextField();
 	protected final JTextField						ItemNameAusgabe									= new JTextField();
 	
 	// JMENU
@@ -166,6 +152,10 @@ public class CashmanagerView extends JFrame {
 		gui.pack();
 	}
 	
+	public void newKontoView() {
+		new JDialog();
+	}
+	
 	public CashmanagerView() {
 		setTitle("Cashmanger");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -196,49 +186,46 @@ public class CashmanagerView extends JFrame {
 		secondaryPanel.add(split, BorderLayout.CENTER);
 		secondaryPanel.add(new JLabel("Kontostand: " + this.getName()),
 				BorderLayout.NORTH);
-<<<<<<< HEAD
 		
-=======
-
 		// Toolbar
 		final JCheckBoxMenuItem toolbarCheckBoxMenuItem = new JCheckBoxMenuItem(
 				"Toolbar anzeigen");
 		toolbarMenu.add(toolbarCheckBoxMenuItem);
-
+		
 		// Datei
 		final Icon exitImageIcon = loadIcon("exit_large.png");
 		final Icon printImageIcon = loadIcon("printer.png");
 		final Icon neuesKontoImageIcon = loadIcon("add.png");
-
+		
 		// JMenuItem
 		final JMenuItem exitMenuItem = new JMenuItem("Verlassen", exitImageIcon);
-		final JMenuItem printMenuItem = new JMenuItem("Drucken",printImageIcon);
-		final JMenuItem newkontoItem = new JMenuItem("Neues Konto?", neuesKontoImageIcon);
+		final JMenuItem printMenuItem = new JMenuItem("Drucken", printImageIcon);
+		final JMenuItem newkontoItem = new JMenuItem("Neues Konto?",
+				neuesKontoImageIcon);
 		
 		// Add to fileMenu
 		fileMenu.add(exitMenuItem);
 		fileMenu.add(printMenuItem);
 		fileMenu.add(newkontoItem);
 		
-		//Menu item 'Neues Konto?'
+		// Menu item 'Neues Konto?'
 		newkontoItem.setMnemonic(KeyEvent.VK_K);
 		exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_K,
 				ActionEvent.CTRL_MASK));
 		exitMenuItem.addActionListener(new NewKontoListener(this));
-
+		
 		// Menu item 'exit'
 		exitMenuItem.setMnemonic(KeyEvent.VK_C);
 		exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,
 				ActionEvent.CTRL_MASK));
 		exitMenuItem.addActionListener(new ExitListener(this));
-
+		
 		// Menu item 'print'
 		printMenuItem.setMnemonic(KeyEvent.VK_P);
 		printMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
 				ActionEvent.CTRL_MASK));
 		printMenuItem.addActionListener(new PrintListener(this));
-
->>>>>>> origin/master
+		
 		// Radio Buttons: Typecontrols
 		
 		JPanel typecontrols = new JPanel(new FlowLayout(1));
@@ -256,61 +243,59 @@ public class CashmanagerView extends JFrame {
 		JPanel form2 = new JPanel(new GridLayout(0, 2));
 		form2.setBorder(BorderFactory.createTitledBorder("Ausgabe,Einnahme"));
 		form2.add(new JLabel("Name"), BorderLayout.CENTER);
-		form2.add(ItemName2);
+		form2.add(ItemName);
 		form2.add(new JLabel("Kategorie"));
-		form2.add(kategorieBox2);
+		form2.add(kategorieBox);
 		form2.add(new JLabel("Betrag"));
-		form2.add(ItemBetrag2);
+		form2.add(ItemBetrag);
 		form2.add(new JLabel("Datum"));
-<<<<<<< HEAD
-		// form2.add(emptyLabel());
-		// form2.add(emptyLabel());
-		// form2.add(emptyLabel());
-		// form2.add(emptyLabel());
-		// form2.add(emptyLabel());
+		form2.add(dateCalendarButton);
+		form2.add(emptyLabel());
+		form2.add(emptyLabel());
+		form2.add(emptyLabel());
+		form2.add(emptyLabel());
+		form2.add(emptyLabel());
 		
-		// drittes formular
-		JPanel Abstand = new JPanel();
-		JPanel form3 = new JPanel(new GridLayout(0, 1));
-=======
-		form2.add(new JCalendarButton());
-
 		// drittes formular
 		JPanel Abstand = new JPanel();
 		JPanel form3 = new JPanel(new GridLayout(0, 2));
->>>>>>> origin/master
 		form3.setBorder(BorderFactory.createTitledBorder("Wenn Budget"));
 		form3.add(new JLabel("Von:"));
-		form3.add(new JCalendarButton());
+		form3.add(fromCalendarButton);
 		form3.add(new JLabel("Bis:"));
-<<<<<<< HEAD
+		form3.add(untilCalendarButton);
 		form3.add(Abstand, BorderLayout.SOUTH);
 		
-=======
-		form3.add(new JCalendarButton());
-		form3.add(Abstand, BorderLayout.SOUTH);
-
->>>>>>> origin/master
 		// viertes formular
 		JPanel form4 = new JPanel(new GridLayout(0, 2));
 		JPanel Abstand2 = new JPanel();
 		form4.setBorder(BorderFactory.createTitledBorder("Wenn Umbuchung"));
 		form4.add(new JLabel("Startkonto:"));
-		form4.add(kategorieBox3);
+		form4.add(kontoBox);
 		form4.add(new JLabel("Zielkonto:"));
-		form4.add(kategorieBox4);
+		form4.add(kontoBox2);
 		form4.add(Abstand2, BorderLayout.SOUTH);
-<<<<<<< HEAD
 		
-=======
-
->>>>>>> origin/master
 		// Action event
 		ActionListener sliceActionListener = new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
-				AbstractButton aButton = (AbstractButton) actionEvent.getSource();
-				System.out.println("Selected: " + aButton.getText());
-			}
+				if (einnahme.isSelected() || ausgabe.isSelected()) {
+					form3.setVisible(false);
+					form4.setVisible(false);
+					form2.setBorder(BorderFactory.createEmptyBorder(0, 0, 300, 0));
+				}
+				else if (budget.isSelected()) {
+					form2.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+					form3.setVisible(true);
+					form4.setVisible(false);
+				}
+				else {
+					form2.setVisible(true);
+					form2.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+					form3.setVisible(true);
+					form4.setVisible(true);
+				}
+			} 
 		};
 		
 		// JRadioButtons Actionlistener
@@ -318,26 +303,20 @@ public class CashmanagerView extends JFrame {
 		ausgabe.addActionListener(sliceActionListener);
 		budget.addActionListener(sliceActionListener);
 		umbuchung.addActionListener(sliceActionListener);
-
+		
+		einnahme.isSelected();
+		
 		ButtonGroup group = new ButtonGroup();
 		group.add(einnahme);
 		group.add(ausgabe);
 		group.add(budget);
 		group.add(umbuchung);
-<<<<<<< HEAD
-		
+	
 		// Panel für linke seite für formular
-		// all.setLayout();
-		// all.setLayout(new GridLayout(3,1));
-=======
-
-		// Panel für linke seite für formular
->>>>>>> origin/master
 		all.setLayout(new BoxLayout(all, BoxLayout.Y_AXIS));
 		all.add(form2);
 		all.add(form3);
 		all.add(form4);
-<<<<<<< HEAD
 		
 		// JPanel Bottom
 		bottom.add(abschicken);
@@ -347,18 +326,19 @@ public class CashmanagerView extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (einnahme.isSelected()) {
-					CONTROLLER.createEintrag("Einnahme", Double.parseDouble(ItemBetrag2.getText()), datum, kategorie, name, welchesKonto);
-				}
-				else if (ausgabe.isSelected()) {
+					/*CONTROLLER.createEintrag("Einnahme",
+							Double.parseDouble(ItemBetrag.getText()),
+							dateCalendarButton.getTargetDate(),
+							kategorieBox.getActionCommand(), ItemName.getText(),
+							CONTROLLER.getKonto() );*/
+				} else if (ausgabe.isSelected()) {
+					
+				} else if (budget.isSelected()) {
+					
+				} else if (umbuchung.isSelected()) {
 					
 				}
-				else if (budget.isSelected()) {
-					
-				}
-				else if (umbuchung.isSelected()) {
-					
-				}
-			//Beispiel:	p.setLand(customerCountryBox.getName());
+				// Beispiel: p.setLand(customerCountryBox.getName());
 			}
 		});
 		
@@ -366,27 +346,16 @@ public class CashmanagerView extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				
-			//Beispiel:	p.setLand(customerCountryBox.getName());
+				// Beispiel: p.setLand(customerCountryBox.getName());
 			}
 		});
 		
-=======
-
-		// JPanel Bottom
-		bottom.add(abschicken);
-		bottom.add(neuesKonto);
-
->>>>>>> origin/master
 		// splitleft
 		left.setLayout(new BorderLayout());
 		left.add(typecontrols, BorderLayout.NORTH);
 		left.add(all, BorderLayout.CENTER);
 		left.add(bottom, BorderLayout.SOUTH);
-<<<<<<< HEAD
 		
-=======
-
->>>>>>> origin/master
 		// splitright
 		right.setLayout(new GridLayout(0, 1));
 		right.setMinimumSize(new Dimension(500, 50));
@@ -404,11 +373,8 @@ public class CashmanagerView extends JFrame {
 		lafMenu.add(windowsRadioButtonMenuItem);
 		lafMenu.add(motifRadioButtonMenuItem);
 		lafMenu.add(nimbusRadioButtonMenuItem);
-<<<<<<< HEAD
 		
-=======
-
->>>>>>> origin/master
+		// Main Menu Bar
 		mainMenuBar.add(fileMenu);
 		mainMenuBar.add(lafMenu);
 		mainMenuBar.add(toolbarMenu);
@@ -488,16 +454,11 @@ public class CashmanagerView extends JFrame {
 			}
 		});
 	}
-<<<<<<< HEAD
 	
-	
-	
-=======
-
 	private static Icon loadIcon(String iconName) {
 		final URL resource = CashmanagerView.class.getResource("/images/"
 				+ iconName);
-
+		
 		if (resource == null) {
 			// TODO Replace by logger
 			System.err.println("Error in " + CashmanagerView.class.getName()
@@ -506,8 +467,7 @@ public class CashmanagerView extends JFrame {
 		}
 		return new ImageIcon(resource);
 	}
-
->>>>>>> origin/master
+	
 	public static Component emptyLabel() {
 		return new JLabel();
 		
